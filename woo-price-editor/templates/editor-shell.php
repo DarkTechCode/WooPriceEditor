@@ -89,7 +89,18 @@ $context = wp_parse_args(
 <main class="wpe-main">
     <div class="wpe-editor-header">
         <h1 class="wpe-editor-title"><?php esc_html_e('Product Price Editor', 'woo-price-editor'); ?></h1>
-        <p class="wpe-editor-description"><?php esc_html_e('Edit product prices, titles, and other fields directly. Changes are saved automatically.', 'woo-price-editor'); ?></p>
+        <div class="wpe-editor-instructions">
+            <?php 
+            $instructions = $context['settings']['instructions'] ?? '';
+            if (!empty($instructions)) {
+                echo '<div class="wpe-instructions-content">';
+                echo wpautop(wp_kses_post($instructions));
+                echo '</div>';
+            } else {
+                echo '<p class="wpe-editor-description">' . esc_html__('Edit product prices, titles, and other fields directly. Changes are saved automatically.', 'woo-price-editor') . '</p>';
+            }
+            ?>
+        </div>
     </div>
     <div class="wpe-editor-container">
         <!-- Filters Section -->

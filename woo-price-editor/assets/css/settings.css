@@ -1,0 +1,164 @@
+/**
+ * Woo Price Editor - Settings Page Styles
+ *
+ * Styles for the settings page using WordPress Settings API.
+ *
+ * @package WooPriceEditor
+ */
+
+/* ==========================================================================
+   Settings Page Layout
+   ========================================================================== */
+
+.wpe-columns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.wpe-column-checkbox {
+    display: flex !important;
+    align-items: center;
+    padding: 8px 12px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.wpe-column-checkbox:hover {
+    background: #f0f0f0;
+    border-color: #999;
+}
+
+.wpe-column-checkbox input[type="checkbox"] {
+    margin-right: 8px;
+    margin-left: 0;
+}
+
+.wpe-column-checkbox:has(input:checked) {
+    background: #e7f3ff;
+    border-color: #2271b1;
+}
+
+/* ==========================================================================
+   Instructions Styling
+   ========================================================================== */
+
+.wpe-editor-instructions {
+    margin: 16px 0;
+}
+
+.wpe-instructions-content {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-left: 4px solid #2271b1;
+    padding: 16px;
+    border-radius: 4px;
+    margin: 12px 0;
+    line-height: 1.6;
+}
+
+.wpe-instructions-content p {
+    margin: 0 0 12px 0;
+}
+
+.wpe-instructions-content p:last-child {
+    margin-bottom: 0;
+}
+
+.wpe-instructions-content ul,
+.wpe-instructions-content ol {
+    margin: 12px 0;
+    padding-left: 24px;
+}
+
+.wpe-instructions-content li {
+    margin-bottom: 8px;
+}
+
+.wpe-instructions-content strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.wpe-instructions-content code {
+    background: #e7e7e7;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 13px;
+}
+
+/* ==========================================================================
+   Settings Form Enhancements
+   ========================================================================== */
+
+#wpbody-content .wrap h1 {
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.form-table th {
+    font-weight: 600;
+    color: #333;
+}
+
+.form-table td {
+    padding: 15px 10px;
+}
+
+.form-table td p {
+    margin: 8px 0 0 0;
+    font-style: italic;
+    color: #666;
+}
+
+select#start_category,
+textarea#instructions {
+    width: 100%;
+    max-width: 400px;
+}
+
+textarea#instructions {
+    min-height: 200px;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   Settings Notices
+   ========================================================================== */
+
+.settings-error.notice {
+    border-left-color: #d63638;
+}
+
+.settings-error.notice p {
+    margin: 0.5em 0;
+}
+
+.updated.notice {
+    border-left-color: #00a32a;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media screen and (max-width: 782px) {
+    .wpe-columns-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-table td {
+        padding: 12px 10px;
+    }
+    
+    select#start_category,
+    textarea#instructions {
+        max-width: 100%;
+    }
+}

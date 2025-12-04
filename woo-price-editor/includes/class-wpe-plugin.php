@@ -45,7 +45,7 @@ class WPE_Plugin {
     /**
      * Activation callback.
      *
-     * Seeds default editor options.
+     * Seeds default editor options and handles migration.
      *
      * @return void
      */
@@ -56,7 +56,21 @@ class WPE_Plugin {
         if (false === $options) {
             add_option('wpe_editor_settings', $defaults);
         } else {
-            update_option('wpe_editor_settings', wp_parse_args((array) $options, $defaults));
+            // Merge with defaults to ensure new fields are added
+            $updated_options = wp_parse_args((array) $options, $defaults);
+            
+            // Handle migration for existing installations
+            if (!isset($options['instructions'])) {
+                $updated_options['instructions'] = $defaults['instructions'];
+            }
+            
+            // Remove 'product' from default_columns if it exists (it's always visible)
+            if (isset($updated_options['default_columns']) && is_array($updated_options['default_columns'])) {
+                $updated_options['default_columns'] = array_diff($updated_options['default_columns'], ['product']);
+                $updated_options['default_columns'] = array_values($updated_options['default_columns']);
+            }
+            
+            update_option('wpe_editor_settings', $updated_options);
         }
     }
 
@@ -69,14 +83,38 @@ class WPE_Plugin {
         return [
             'start_category'  => 'all',
             'default_columns' => [
-                'product',
                 'sku',
                 'regular_price',
                 'sale_price',
                 'stock_status',
                 'tax_status',
             ],
+            'instructions' => self::get_default_instructions(),
         ];
+    }
+
+    /**
+     * Get default instructions text.
+     *
+     * @return string Default instructions.
+     */
+    private static function get_default_instructions() {
+        return __(
+            "Welcome to the Woo Price Editor! This tool allows you to quickly edit product information in bulk.\n\n" .
+            "How to use:\n" .
+            "• Click on any editable field to modify it directly\n" .
+            "• Price fields: Enter new prices and they'll be saved automatically when you click away\n" .
+            "• Title field: Click to edit, then press Enter to save or Escape to cancel\n" .
+            "• Dropdown fields: Select new values from the dropdown menu\n" .
+            "• Use the filters above the table to narrow down products\n" .
+            "• Toggle column visibility using the column checkboxes\n" .
+            "• All changes are saved automatically to your WooCommerce store\n\n" .
+            "Tips:\n" .
+            "• Use the search bar to find products by title, SKU, or ID\n" .
+            "• Filter by category, status, tax status, or stock status\n" .
+            "• Click the edit or view icons to open products in the standard WooCommerce interface",
+            'woo-price-editor'
+        );
     }
 
     /**
@@ -96,6 +134,10 @@ class WPE_Plugin {
         // Initialize AJAX handlers
         $ajax = new WPE_AJAX();
         $ajax->register_actions();
+        
+        // Initialize settings
+        $settings = new WPE_Settings();
+        $settings->init();
     }
 
     /**
