@@ -171,30 +171,21 @@
         pendingRequests: {},
 
         /**
-         * Make API request
-         * @param {string} endpoint - API endpoint
-         * @param {string} method - HTTP method
+         * Make AJAX request
+         * @param {string} action - AJAX action name (without 'wpe_' prefix)
          * @param {object} data - Request data
          * @returns {Promise}
          */
-        request(endpoint, method = 'GET', data = null) {
+        request(action, data = null) {
             const options = {
-                url: `${Config.restUrl}${endpoint}`,
-                method: method,
-                beforeSend: (xhr) => {
-                    xhr.setRequestHeader('X-WP-Nonce', Config.nonce);
-                },
+                url: Config.ajaxUrl,
+                method: 'POST',
+                data: $.extend({}, data || {}, {
+                    action: `wpe_${action}`,
+                    nonce: Config.nonce
+                }),
                 timeout: 30000
             };
-
-            if (data) {
-                if (method === 'GET') {
-                    options.data = data;
-                } else {
-                    options.contentType = 'application/json';
-                    options.data = JSON.stringify(data);
-                }
-            }
 
             return $.ajax(options).fail((xhr, status, error) => {
                 this.handleError(xhr, status, error);
@@ -249,7 +240,7 @@
          * @returns {Promise}
          */
         getProducts(params) {
-            return this.request('/products', 'GET', params);
+            return this.request('get_products', params);
         },
 
         /**
@@ -263,7 +254,8 @@
             const key = `update_${productId}_${field}`;
             this.cancelRequest(key);
 
-            const promise = this.request(`/products/${productId}`, 'PATCH', {
+            const promise = this.request('update_product', {
+                product_id: productId,
                 field: field,
                 value: value
             });
@@ -280,7 +272,7 @@
          * @returns {Promise}
          */
         getCategories() {
-            return this.request('/categories', 'GET');
+            return this.request('get_categories');
         },
 
         /**
@@ -288,7 +280,7 @@
          * @returns {Promise}
          */
         getTaxClasses() {
-            return this.request('/tax-classes', 'GET');
+            return this.request('get_tax_classes');
         }
     };
 
@@ -993,14 +985,13 @@
                 order: [[0, 'desc']],
                 language: this.getLanguage(),
                 ajax: {
-                    url: `${Config.restUrl}/products`,
-                    type: 'GET',
-                    beforeSend: (xhr) => {
-                        xhr.setRequestHeader('X-WP-Nonce', Config.nonce);
-                    },
+                    url: Config.ajaxUrl,
+                    type: 'POST',
                     data: (d) => {
                         const filters = Filters.getFilters();
                         return {
+                            action: 'wpe_get_products',
+                            nonce: Config.nonce,
                             page: Math.floor(d.start / d.length) + 1,
                             per_page: d.length,
                             search: filters.search,
@@ -1013,8 +1004,8 @@
                         };
                     },
                     dataSrc: (json) => {
-                        UI.updateRecordCount(json.products.length, json.total);
-                        return json.products;
+                        UI.updateRecordCount(json.data.products.length, json.data.total);
+                        return json.data.products;
                     },
                     error: (xhr, error, thrown) => {
                         ApiClient.handleError(xhr, error, thrown);

@@ -21,6 +21,7 @@ define('WPE_PLUGIN_VERSION', '0.1.0');
 
 require_once WPE_PLUGIN_DIR . 'includes/class-wpe-plugin.php';
 require_once WPE_PLUGIN_DIR . 'includes/class-wpe-api.php';
+require_once WPE_PLUGIN_DIR . 'includes/class-wpe-ajax.php';
 require_once WPE_PLUGIN_DIR . 'includes/class-wpe-product.php';
 require_once WPE_PLUGIN_DIR . 'includes/class-wpe-security.php';
 
