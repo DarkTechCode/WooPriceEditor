@@ -20,6 +20,9 @@ define('WPE_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WPE_PLUGIN_VERSION', '0.1.0');
 
 require_once WPE_PLUGIN_DIR . 'includes/class-wpe-plugin.php';
+require_once WPE_PLUGIN_DIR . 'includes/class-wpe-api.php';
+require_once WPE_PLUGIN_DIR . 'includes/class-wpe-product.php';
+require_once WPE_PLUGIN_DIR . 'includes/class-wpe-security.php';
 
 register_activation_hook(WPE_PLUGIN_FILE, ['WPE_Plugin', 'activate']);
 
