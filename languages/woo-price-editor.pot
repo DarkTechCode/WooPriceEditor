@@ -1,0 +1,316 @@
+# Copyright (C) 2024 WooEditPrice Team
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Price Editor 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/woo-price-editor/issues\n"
+"POT-Creation-Date: 2024-01-01 00:00:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"X-Generator: WP-CLI\n"
+"X-Domain: woo-price-editor\n"
+
+#: woo-price-editor.php
+msgid "WooCommerce Price Editor requires PHP version %s or higher."
+msgstr ""
+
+#: woo-price-editor.php
+msgid "WooCommerce Price Editor requires WordPress version %s or higher."
+msgstr ""
+
+#: woo-price-editor.php
+msgid "WooCommerce Price Editor requires WooCommerce to be installed and active."
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Price Editor"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Loading..."
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "No products found"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "An error occurred"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Saving..."
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Saved"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Save failed"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Search..."
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "All statuses"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "All categories"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Published"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Draft"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Private"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Pending"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Taxable"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Shipping only"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "None"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "In Stock"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "Out of Stock"
+msgstr ""
+
+#: includes/class-wpe-admin.php
+msgid "On Backorder"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "WooCommerce Price Editor"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Edit product prices, titles, and other fields directly from this page. Changes are saved automatically."
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Search by title, SKU, or ID..."
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Status"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Category"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Tax Status"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Stock Status"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Reset"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Columns:"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "SKU"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Regular Price"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Sale Price"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Tax Class"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Stock"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Categories"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "ID"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Title"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Actions"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "All Products"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Add New Product"
+msgstr ""
+
+#: admin/partials/wpe-admin-display.php
+msgid "Tax Settings"
+msgstr ""
+
+#: includes/class-wpe-security.php
+msgid "Unknown field: %s"
+msgstr ""
+
+#: includes/class-wpe-security.php
+msgid "Invalid tax status value"
+msgstr ""
+
+#: includes/class-wpe-security.php
+msgid "Invalid stock status value"
+msgstr ""
+
+#: includes/class-wpe-security.php
+msgid "Price cannot be empty"
+msgstr ""
+
+#: includes/class-wpe-security.php
+msgid "Price must be a valid number"
+msgstr ""
+
+#: includes/class-wpe-security.php
+msgid "Price cannot be negative"
+msgstr ""
+
+#: includes/class-wpe-security.php
+msgid "Price is too large"
+msgstr ""
+
+#: includes/class-wpe-security.php
+msgid "Title cannot be empty"
+msgstr ""
+
+#: includes/class-wpe-security.php
+msgid "Title is too long (max 200 characters)"
+msgstr ""
+
+#: includes/class-wpe-product.php
+msgid "Standard"
+msgstr ""
+
+#: includes/class-wpe-product.php
+msgid "Product not found"
+msgstr ""
+
+#: includes/class-wpe-product.php
+msgid "Failed to save product"
+msgstr ""
+
+#: includes/class-wpe-product.php
+msgid "%1$s for product #%2$d changed: %3$s → %4$s"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "You must be logged in to access this endpoint."
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "You do not have permission to manage products."
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Rate limit exceeded. Please try again later."
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "You do not have permission to edit this product."
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "You do not have permission to edit product #%d."
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Current page number"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Items per page"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Filter by product status"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Filter by category slug"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Search by title, SKU, or ID"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Filter by tax status"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Filter by stock status"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Order by field"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Order direction"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Product ID"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Field to update"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "New value"
+msgstr ""
+
+#: includes/class-wpe-api.php
+msgid "Array of product IDs"
+msgstr ""
