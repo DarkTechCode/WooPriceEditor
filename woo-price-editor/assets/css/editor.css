@@ -1,0 +1,923 @@
+/**
+ * WooCommerce Price Editor - Frontend Styles
+ *
+ * Combined and optimized CSS for the price editor frontend.
+ * Includes DataTables-driven layout and inline editing UI.
+ *
+ * @package WooPriceEditor
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   CSS Variables
+   ========================================================================== */
+
+:root {
+    /* Colors */
+    --wpe-primary: #2271b1;
+    --wpe-primary-hover: #135e96;
+    --wpe-success: #00a32a;
+    --wpe-success-light: #d6f4dd;
+    --wpe-warning: #dba617;
+    --wpe-warning-light: #fcf4d6;
+    --wpe-error: #d63638;
+    --wpe-error-light: #fcebea;
+    --wpe-info: #72aee6;
+    --wpe-info-light: #e7f4fc;
+    
+    /* Grays */
+    --wpe-gray-50: #f9fafb;
+    --wpe-gray-100: #f3f4f6;
+    --wpe-gray-200: #e5e7eb;
+    --wpe-gray-300: #d1d5db;
+    --wpe-gray-400: #9ca3af;
+    --wpe-gray-500: #6b7280;
+    --wpe-gray-600: #4b5563;
+    --wpe-gray-700: #374151;
+    --wpe-gray-800: #1f2937;
+    --wpe-gray-900: #111827;
+    
+    /* Spacing */
+    --wpe-spacing-xs: 4px;
+    --wpe-spacing-sm: 8px;
+    --wpe-spacing-md: 16px;
+    --wpe-spacing-lg: 24px;
+    --wpe-spacing-xl: 32px;
+    
+    /* Border radius */
+    --wpe-radius-sm: 4px;
+    --wpe-radius-md: 6px;
+    --wpe-radius-lg: 8px;
+    
+    /* Shadows */
+    --wpe-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --wpe-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --wpe-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    
+    /* Transitions */
+    --wpe-transition-fast: 150ms ease;
+    --wpe-transition: 200ms ease;
+    --wpe-transition-slow: 300ms ease;
+}
+
+/* ==========================================================================
+   Full-screen Layout (overrides default template styles)
+   ========================================================================== */
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f8f9fa;
+    color: var(--wpe-gray-900);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.wpe-shell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.wpe-header {
+    padding: var(--wpe-spacing-lg);
+    background: #fff;
+    border-bottom: 1px solid var(--wpe-gray-200);
+    box-shadow: var(--wpe-shadow-sm);
+}
+
+.wpe-branding {
+    display: flex;
+    align-items: center;
+    gap: var(--wpe-spacing-md);
+}
+
+.wpe-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--wpe-radius-lg);
+    background: linear-gradient(135deg, var(--wpe-primary), var(--wpe-primary-hover));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.wpe-user {
+    font-weight: 500;
+    color: var(--wpe-gray-700);
+}
+
+.wpe-main {
+    flex: 1;
+    padding: var(--wpe-spacing-lg);
+    background: #f8f9fa;
+}
+
+/* ==========================================================================
+   Editor Container
+   ========================================================================== */
+
+.wpe-editor-container {
+    max-width: 100%;
+    background: #fff;
+    border-radius: var(--wpe-radius-lg);
+    box-shadow: var(--wpe-shadow);
+    overflow: hidden;
+}
+
+.wpe-editor-header {
+    padding: var(--wpe-spacing-lg);
+    border-bottom: 1px solid var(--wpe-gray-200);
+    background: #fff;
+}
+
+.wpe-editor-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 var(--wpe-spacing-sm) 0;
+    color: var(--wpe-gray-900);
+}
+
+.wpe-editor-description {
+    color: var(--wpe-gray-600);
+    margin: 0;
+}
+
+/* ==========================================================================
+   Filters Section
+   ========================================================================== */
+
+.wpe-filters {
+    background: #fff;
+    border-bottom: 1px solid var(--wpe-gray-200);
+    padding: var(--wpe-spacing-md);
+}
+
+.wpe-filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--wpe-spacing-md);
+    align-items: center;
+}
+
+.wpe-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wpe-spacing-xs);
+}
+
+.wpe-search-group {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+}
+
+.wpe-search-input {
+    width: 100%;
+    padding: var(--wpe-spacing-sm) var(--wpe-spacing-md);
+    border: 1px solid var(--wpe-gray-300);
+    border-radius: var(--wpe-radius-md);
+    font-size: 14px;
+    transition: border-color var(--wpe-transition), box-shadow var(--wpe-transition);
+}
+
+.wpe-search-input:focus {
+    border-color: var(--wpe-primary);
+    box-shadow: 0 0 0 1px var(--wpe-primary);
+    outline: none;
+}
+
+.wpe-filter-select {
+    min-width: 150px;
+    padding: var(--wpe-spacing-sm);
+    border: 1px solid var(--wpe-gray-300);
+    border-radius: var(--wpe-radius-md);
+    font-size: 14px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color var(--wpe-transition);
+}
+
+.wpe-filter-select:focus {
+    border-color: var(--wpe-primary);
+    outline: none;
+}
+
+.wpe-filter-select:hover {
+    border-color: var(--wpe-gray-400);
+}
+
+/* Column Toggles */
+.wpe-column-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--wpe-spacing-md);
+    align-items: center;
+    margin-top: var(--wpe-spacing-md);
+    padding-top: var(--wpe-spacing-md);
+    border-top: 1px solid var(--wpe-gray-200);
+}
+
+.wpe-column-toggles-label {
+    font-weight: 500;
+    color: var(--wpe-gray-700);
+}
+
+.wpe-column-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--wpe-spacing-xs);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--wpe-gray-600);
+}
+
+.wpe-column-toggle input[type="checkbox"] {
+    margin: 0;
+}
+
+.wpe-column-toggle:hover {
+    color: var(--wpe-gray-900);
+}
+
+/* ==========================================================================
+   Notifications & Errors
+   ========================================================================== */
+
+.wpe-notifications {
+    padding: var(--wpe-spacing-md);
+    background: #fff;
+    border-bottom: 1px solid var(--wpe-gray-200);
+}
+
+.wpe-notification {
+    display: flex;
+    align-items: center;
+    gap: var(--wpe-spacing-sm);
+    padding: var(--wpe-spacing-sm) var(--wpe-spacing-md);
+    border-radius: var(--wpe-radius-md);
+    margin-bottom: var(--wpe-spacing-sm);
+    animation: wpe-slide-in 0.3s ease;
+}
+
+.wpe-notification:last-child {
+    margin-bottom: 0;
+}
+
+.wpe-notification-success {
+    background-color: var(--wpe-success-light);
+    border-left: 4px solid var(--wpe-success);
+    color: #155724;
+}
+
+.wpe-notification-error {
+    background-color: var(--wpe-error-light);
+    border-left: 4px solid var(--wpe-error);
+    color: #721c24;
+}
+
+.wpe-notification-warning {
+    background-color: var(--wpe-warning-light);
+    border-left: 4px solid var(--wpe-warning);
+    color: #856404;
+}
+
+.wpe-notification-info {
+    background-color: var(--wpe-info-light);
+    border-left: 4px solid var(--wpe-info);
+    color: #0c5460;
+}
+
+.wpe-notification-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity var(--wpe-transition);
+    padding: 2px;
+    color: inherit;
+}
+
+.wpe-notification-close:hover {
+    opacity: 1;
+}
+
+.wpe-errors {
+    padding: var(--wpe-spacing-md);
+    background: #fff;
+    border-bottom: 1px solid var(--wpe-gray-200);
+}
+
+.wpe-error-message {
+    background-color: var(--wpe-error-light);
+    border: 1px solid var(--wpe-error);
+    border-radius: var(--wpe-radius-md);
+    padding: var(--wpe-spacing-md);
+    color: var(--wpe-error);
+}
+
+@keyframes wpe-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   Table Styles
+   ========================================================================== */
+
+.wpe-table-container {
+    background: #fff;
+    overflow: hidden;
+}
+
+.wpe-products-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.wpe-products-table thead th {
+    background-color: var(--wpe-gray-50);
+    border-bottom: 2px solid var(--wpe-gray-200);
+    padding: var(--wpe-spacing-sm) var(--wpe-spacing-md);
+    text-align: left;
+    font-weight: 600;
+    color: var(--wpe-gray-700);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.wpe-products-table tbody td {
+    padding: var(--wpe-spacing-sm) var(--wpe-spacing-md);
+    border-bottom: 1px solid var(--wpe-gray-200);
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.wpe-products-table tbody tr:hover {
+    background-color: var(--wpe-gray-50);
+}
+
+.wpe-products-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Column widths */
+.wpe-col-id {
+    width: 60px;
+}
+
+.wpe-col-title {
+    min-width: 200px;
+}
+
+.wpe-col-sku {
+    width: 100px;
+}
+
+.wpe-col-status {
+    width: 100px;
+}
+
+.wpe-col-regular-price,
+.wpe-col-sale-price {
+    width: 120px;
+}
+
+.wpe-col-tax-status,
+.wpe-col-tax-class {
+    width: 120px;
+}
+
+.wpe-col-stock-status {
+    width: 120px;
+}
+
+.wpe-col-categories {
+    min-width: 150px;
+}
+
+.wpe-col-actions {
+    width: 80px;
+    text-align: center;
+}
+
+/* ==========================================================================
+   Status Badges
+   ========================================================================== */
+
+.wpe-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.wpe-status-publish {
+    background-color: var(--wpe-success-light);
+    color: var(--wpe-success);
+}
+
+.wpe-status-draft {
+    background-color: var(--wpe-gray-200);
+    color: var(--wpe-gray-600);
+}
+
+.wpe-status-private {
+    background-color: var(--wpe-warning-light);
+    color: var(--wpe-warning);
+}
+
+.wpe-status-pending {
+    background-color: var(--wpe-info-light);
+    color: #0c5460;
+}
+
+/* Stock Status Badges */
+.wpe-stock-instock {
+    background-color: var(--wpe-success-light);
+    color: var(--wpe-success);
+}
+
+.wpe-stock-outofstock {
+    background-color: var(--wpe-error-light);
+    color: var(--wpe-error);
+}
+
+.wpe-stock-onbackorder {
+    background-color: var(--wpe-warning-light);
+    color: var(--wpe-warning);
+}
+
+/* ==========================================================================
+   Editable Fields
+   ========================================================================== */
+
+.wpe-editable {
+    position: relative;
+    cursor: pointer;
+    padding: var(--wpe-spacing-xs);
+    border-radius: var(--wpe-radius-sm);
+    transition: background-color var(--wpe-transition);
+}
+
+.wpe-editable:hover {
+    background-color: var(--wpe-info-light);
+}
+
+.wpe-editable-active {
+    background-color: var(--wpe-info-light);
+}
+
+.wpe-editable-value {
+    display: block;
+}
+
+.wpe-editable-value:empty::before {
+    content: '—';
+    color: var(--wpe-gray-400);
+}
+
+.wpe-editable-input {
+    display: none;
+    width: 100%;
+    padding: var(--wpe-spacing-xs) var(--wpe-spacing-sm);
+    border: 1px solid var(--wpe-primary);
+    border-radius: var(--wpe-radius-sm);
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.wpe-editable-active .wpe-editable-value {
+    display: none;
+}
+
+.wpe-editable-active .wpe-editable-input {
+    display: block;
+}
+
+.wpe-editable-select {
+    width: 100%;
+    padding: var(--wpe-spacing-xs) var(--wpe-spacing-sm);
+    border: 1px solid var(--wpe-gray-300);
+    border-radius: var(--wpe-radius-sm);
+    font-size: 12px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.wpe-editable-select:focus {
+    border-color: var(--wpe-primary);
+    outline: none;
+}
+
+/* Editing states */
+.wpe-editable.wpe-saving {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.wpe-editable.wpe-saving::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid var(--wpe-gray-300);
+    border-top: 2px solid var(--wpe-primary);
+    border-radius: 50%;
+    animation: wpe-spin 1s linear infinite;
+}
+
+.wpe-editable.wpe-saved {
+    background-color: var(--wpe-success-light);
+}
+
+.wpe-editable.wpe-saved::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    right: var(--wpe-spacing-xs);
+    transform: translateY(-50%);
+    color: var(--wpe-success);
+    font-weight: bold;
+}
+
+.wpe-editable.wpe-save-error {
+    background-color: var(--wpe-error-light);
+}
+
+.wpe-editable.wpe-save-error::after {
+    content: '✕';
+    position: absolute;
+    top: 50%;
+    right: var(--wpe-spacing-xs);
+    transform: translateY(-50%);
+    color: var(--wpe-error);
+    font-weight: bold;
+}
+
+/* Price field styling */
+.wpe-price-field {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+    text-align: right;
+}
+
+.wpe-price-field input {
+    text-align: right;
+}
+
+/* Title field with edit buttons */
+.wpe-title-field {
+    display: flex;
+    align-items: center;
+    gap: var(--wpe-spacing-sm);
+}
+
+.wpe-title-input-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--wpe-spacing-xs);
+}
+
+.wpe-title-input-wrapper input {
+    flex: 1;
+}
+
+.wpe-title-buttons {
+    display: flex;
+    gap: var(--wpe-spacing-xs);
+}
+
+/* ==========================================================================
+   Action Buttons
+   ========================================================================== */
+
+.wpe-actions {
+    display: flex;
+    gap: var(--wpe-spacing-sm);
+    justify-content: center;
+    align-items: center;
+}
+
+.wpe-action-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--wpe-radius-sm);
+    color: var(--wpe-gray-600);
+    text-decoration: none;
+    transition: all var(--wpe-transition);
+}
+
+.wpe-action-link:hover {
+    color: var(--wpe-primary);
+    background-color: var(--wpe-gray-100);
+}
+
+.wpe-action-link .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* WordPress button compatibility */
+.button {
+    display: inline-block;
+    padding: 0 12px;
+    font-size: 13px;
+    line-height: 2.15384615;
+    height: 30px;
+    margin: 0;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: var(--wpe-radius-sm);
+    white-space: nowrap;
+    box-sizing: border-box;
+    background-color: #f6f7f7;
+    border-color: #c3c4c7;
+    color: #50575e;
+    text-decoration: none;
+    text-shadow: none;
+    transition: none;
+}
+
+.button:hover {
+    background-color: #f0f0f1;
+    border-color: #8c8f94;
+    color: #1d2327;
+}
+
+.button:focus {
+    background-color: #f6f7f7;
+    border-color: #8c8f94;
+    color: #1d2327;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px #2271b1;
+    outline: none;
+}
+
+.wpe-btn-save,
+.wpe-btn-cancel {
+    padding: 2px 6px;
+    font-size: 11px;
+    border: 1px solid transparent;
+    border-radius: var(--wpe-radius-sm);
+    cursor: pointer;
+    transition: all var(--wpe-transition-fast);
+}
+
+.wpe-btn-save {
+    background-color: var(--wpe-success);
+    color: white;
+    border-color: var(--wpe-success);
+}
+
+.wpe-btn-save:hover {
+    background-color: #0a7e2a;
+}
+
+.wpe-btn-cancel {
+    background-color: var(--wpe-gray-500);
+    color: white;
+    border-color: var(--wpe-gray-500);
+}
+
+.wpe-btn-cancel:hover {
+    background-color: var(--wpe-gray-600);
+}
+
+/* ==========================================================================
+   Loading Overlay
+   ========================================================================== */
+
+.wpe-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.wpe-loading[aria-hidden="true"] {
+    display: none;
+}
+
+.wpe-loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--wpe-spacing-md);
+}
+
+.wpe-loading-spinner .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--wpe-gray-300);
+    border-top: 3px solid var(--wpe-primary);
+    border-radius: 50%;
+    animation: wpe-spin 1s linear infinite;
+}
+
+/* WordPress spinner compatibility */
+.wpe-loading-spinner .spinner.is-active {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><g fill="%232271b1"><circle cx="3" cy="10" r="2"/><circle cx="10" cy="3" r="2"/><circle cx="17" cy="10" r="2"/><circle cx="10" cy="17" r="2"/></g></svg>');
+    background-size: 20px 20px;
+    animation: spin 1s linear infinite;
+    border: none;
+    width: 20px;
+    height: 20px;
+}
+
+.wpe-loading-text {
+    font-weight: 500;
+    color: var(--wpe-gray-600);
+}
+
+@keyframes wpe-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   Status Bar
+   ========================================================================== */
+
+.wpe-status-bar {
+    background: #fff;
+    border-top: 1px solid var(--wpe-gray-200);
+    padding: var(--wpe-spacing-md) var(--wpe-spacing-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--wpe-gray-600);
+}
+
+.wpe-status-info {
+    display: flex;
+    align-items: center;
+    gap: var(--wpe-spacing-sm);
+}
+
+.wpe-status-links {
+    display: flex;
+    align-items: center;
+    gap: var(--wpe-spacing-md);
+}
+
+.wpe-status-links a {
+    color: var(--wpe-primary);
+    text-decoration: none;
+    transition: color var(--wpe-transition);
+}
+
+.wpe-status-links a:hover {
+    color: var(--wpe-primary-hover);
+    text-decoration: underline;
+}
+
+.wpe-separator {
+    color: var(--wpe-gray-400);
+}
+
+/* ==========================================================================
+   DataTables Integration
+   ========================================================================== */
+
+/* Override DataTables default styles to match our theme */
+.dataTables_wrapper {
+    padding: 0;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_processing,
+.dataTables_wrapper .dataTables_paginate {
+    color: var(--wpe-gray-700);
+    font-size: 13px;
+}
+
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid var(--wpe-gray-300);
+    border-radius: var(--wpe-radius-sm);
+    padding: var(--wpe-spacing-xs) var(--wpe-spacing-sm);
+    font-size: 13px;
+}
+
+.dataTables_wrapper .dataTables_length select:focus,
+.dataTables_wrapper .dataTables_filter input:focus {
+    border-color: var(--wpe-primary);
+    outline: none;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border-radius: var(--wpe-radius-sm) !important;
+    margin: 0 2px !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: var(--wpe-primary) !important;
+    border-color: var(--wpe-primary) !important;
+    color: white !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: var(--wpe-gray-100) !important;
+    border-color: var(--wpe-gray-300) !important;
+}
+
+.dataTables_wrapper .dataTables_processing {
+    background: var(--wpe-gray-900) !important;
+    color: white !important;
+    border-radius: var(--wpe-radius-md);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .wpe-filters-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .wpe-filter-group {
+        width: 100%;
+    }
+    
+    .wpe-search-group {
+        max-width: none;
+    }
+    
+    .wpe-column-toggles {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .wpe-status-bar {
+        flex-direction: column;
+        gap: var(--wpe-spacing-sm);
+        align-items: flex-start;
+    }
+    
+    .wpe-products-table {
+        font-size: 12px;
+    }
+    
+    .wpe-products-table thead th,
+    .wpe-products-table tbody td {
+        padding: var(--wpe-spacing-xs) var(--wpe-spacing-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .wpe-main {
+        padding: var(--wpe-spacing-md);
+    }
+    
+    .wpe-editor-header {
+        padding: var(--wpe-spacing-md);
+    }
+    
+    .wpe-filters {
+        padding: var(--wpe-spacing-sm);
+    }
+    
+    .wpe-column-toggles {
+        gap: var(--wpe-spacing-sm);
+    }
+}

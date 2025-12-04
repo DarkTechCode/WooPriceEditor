@@ -88,6 +88,10 @@ class WPE_Plugin {
         add_action('admin_menu', [$this, 'register_admin_menu']);
         add_action('admin_init', [$this, 'prepare_editor_context']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
+        
+        // Initialize REST API
+        $api = new WPE_API();
+        add_action('rest_api_init', [$api, 'register_routes']);
     }
 
     /**
@@ -125,8 +129,8 @@ class WPE_Plugin {
     }
 
     /**
-     * Placeholder for future asset loading.
-     * Ensures hooks are wired for enqueueing editor scripts and styles.
+     * Enqueue admin assets for the editor.
+     * Loads DataTables, plugin CSS/JS, and localizes dynamic data.
      *
      * @param string $hook_suffix Current admin page suffix.
      * @return void
@@ -136,12 +140,96 @@ class WPE_Plugin {
             return;
         }
 
-        /**
-         * Hook point for future asset registration. Third-party code or future
-         * iterations can attach to this action to load scripts and styles
-         * without needing to adjust the core scaffolding.
-         */
-        do_action('wpe_editor_enqueue_assets', $hook_suffix, $this->page_hook);
+        // Enqueue WordPress jQuery (not a separate copy)
+        wp_enqueue_script('jquery');
+
+        // DataTables CSS
+        wp_enqueue_style(
+            'datatables',
+            'https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css',
+            [],
+            '1.13.6'
+        );
+
+        // Plugin CSS
+        wp_enqueue_style(
+            'wpe-editor',
+            WPE_PLUGIN_URL . 'assets/css/editor.css',
+            ['datatables'],
+            WPE_PLUGIN_VERSION
+        );
+
+        // DataTables JS
+        wp_enqueue_script(
+            'datatables',
+            'https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js',
+            ['jquery'],
+            '1.13.6',
+            true
+        );
+
+        // Plugin JS
+        wp_enqueue_script(
+            'wpe-editor',
+            WPE_PLUGIN_URL . 'assets/js/editor.js',
+            ['jquery', 'datatables', 'wp-api-fetch'],
+            WPE_PLUGIN_VERSION,
+            true
+        );
+
+        // Get current settings for localization
+        $settings = get_option('wpe_editor_settings', self::get_default_options());
+
+        // Localize script with dynamic data
+        wp_localize_script('wpe-editor', 'wpeData', [
+            'restUrl'        => rest_url('woo-price-editor/v1'),
+            'nonce'          => wp_create_nonce('wp_rest'),
+            'ajaxUrl'        => admin_url('admin-ajax.php'),
+            'pageLength'     => 50, // Default page length
+            'defaultColumns' => $settings['default_columns'] ?? [],
+            'startCategory'  => $settings['start_category'] ?? 'all',
+            'i18n'           => [
+                'loading'          => __('Loading...', 'woo-price-editor'),
+                'saved'            => __('Saved', 'woo-price-editor'),
+                'cancel'           => __('Cancel', 'woo-price-editor'),
+                'edit'             => __('Edit', 'woo-price-editor'),
+                'view'             => __('View', 'woo-price-editor'),
+                'show'             => __('Show', 'woo-price-editor'),
+                'entries'          => __('entries', 'woo-price-editor'),
+                'showing'          => __('Showing', 'woo-price-editor'),
+                'of'               => __('of', 'woo-price-editor'),
+                'products'         => __('products', 'woo-price-editor'),
+                'page'             => __('Page', 'woo-price-editor'),
+                'previous'         => __('Previous', 'woo-price-editor'),
+                'next'             => __('Next', 'woo-price-editor'),
+                'first'            => __('First', 'woo-price-editor'),
+                'last'             => __('Last', 'woo-price-editor'),
+                'search'           => __('Search:', 'woo-price-editor'),
+                'noData'           => __('No products found', 'woo-price-editor'),
+                'filteredFrom'     => __('filtered from', 'woo-price-editor'),
+                'total'            => __('total', 'woo-price-editor'),
+                'notAuthenticated' => __('Please log in again', 'woo-price-editor'),
+                'forbidden'        => __('You do not have permission', 'woo-price-editor'),
+                'rateLimitExceeded' => __('Too many requests. Please wait.', 'woo-price-editor'),
+                'timeout'          => __('Request timed out', 'woo-price-editor'),
+                'networkError'     => __('Network error. Please check your connection.', 'woo-price-editor'),
+                'serverError'      => __('Server error. Please try again later.', 'woo-price-editor'),
+                'invalidPrice'     => __('Invalid price value', 'woo-price-editor'),
+                'negativePrice'    => __('Price cannot be negative', 'woo-price-editor'),
+                'emptyTitle'       => __('Title cannot be empty', 'woo-price-editor'),
+                'instock'          => __('In Stock', 'woo-price-editor'),
+                'outofstock'      => __('Out of Stock', 'woo-price-editor'),
+                'onbackorder'      => __('On Backorder', 'woo-price-editor'),
+                'taxable'          => __('Taxable', 'woo-price-editor'),
+                'shipping'         => __('Shipping only', 'woo-price-editor'),
+                'none'             => __('None', 'woo-price-editor'),
+                'standard'         => __('Standard', 'woo-price-editor'),
+                'publish'          => __('Published', 'woo-price-editor'),
+                'draft'            => __('Draft', 'woo-price-editor'),
+                'private'          => __('Private', 'woo-price-editor'),
+                'pending'          => __('Pending', 'woo-price-editor'),
+            ],
+        ]);
     }
 
     /**
