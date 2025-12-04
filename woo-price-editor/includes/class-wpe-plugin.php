@@ -92,6 +92,10 @@ class WPE_Plugin {
         // Initialize REST API
         $api = new WPE_API();
         add_action('rest_api_init', [$api, 'register_routes']);
+        
+        // Initialize AJAX handlers
+        $ajax = new WPE_AJAX();
+        $ajax->register_actions();
     }
 
     /**
