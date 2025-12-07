@@ -24,6 +24,7 @@ require_once WPE_PLUGIN_DIR . 'includes/class-wpe-api.php';
 require_once WPE_PLUGIN_DIR . 'includes/class-wpe-ajax.php';
 require_once WPE_PLUGIN_DIR . 'includes/class-wpe-product.php';
 require_once WPE_PLUGIN_DIR . 'includes/class-wpe-security.php';
+require_once WPE_PLUGIN_DIR . 'includes/class-wpe-settings.php';
 
 register_activation_hook(WPE_PLUGIN_FILE, ['WPE_Plugin', 'activate']);
 
