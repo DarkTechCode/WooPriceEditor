@@ -1,80 +1,80 @@
 # WooEditPrice
-WordPress plugin for WooCommerce price editing
+Плагин WordPress для редактирования цен WooCommerce
 
-## Overview
+## Обзор
 
-This project provides an interface for editing WooCommerce product prices with advanced filtering, search, and inline editing capabilities. The plugin is now structured as a modular WordPress plugin located in the `woo-price-editor/` directory.
+Этот проект предоставляет интерфейс для редактирования цен товаров WooCommerce с расширенными возможностями фильтрации, поиска и встроенного редактирования. Плагин имеет модульную структуру и расположен в директории `woo-price-editor/`.
 
-## New Plugin Structure
+## Новая структура плагина
 
-The main plugin code has been refactored into a standard WordPress plugin structure:
+Основной код плагина был рефакторен в стандартную структуру плагина WordPress:
 
-**Location**: `/woo-price-editor/`
+**Расположение**: `/woo-price-editor/`
 
-**Key Features**:
-- ✓ Full-screen editor interface with distraction-free editing
-- ✓ AJAX-based product operations with proper security
-- ✓ Configurable settings (start category, default columns, instructions)
-- ✓ WordPress-bundled jQuery (no version conflicts)
-- ✓ Comprehensive documentation in `docs/` directory
-- ✓ PHPUnit test suite with coverage in `tests/` directory
-- ✓ Compatible with WordPress 6.0+ and latest WooCommerce
+**Основные возможности**:
+- ✓ Полноэкранный интерфейс редактора без отвлекающих элементов
+- ✓ Операции с товарами через AJAX с надлежащей защитой
+- ✓ Настраиваемые параметры (стартовая категория, колонки по умолчанию, инструкции)
+- ✓ Использование встроенного в WordPress jQuery (без конфликтов версий)
+- ✓ Полная документация в директории `docs/`
+- ✓ Набор тестов PHPUnit с покрытием в директории `tests/`
+- ✓ Совместимость с WordPress 6.0+ и последними версиями WooCommerce
 
-**Documentation**: See `/woo-price-editor/README.md` for full plugin documentation
+**Документация**: См. `/woo-price-editor/README.md` для полной документации плагина
 
-**Requirements**:
+**Требования**:
 - WordPress 6.0+
 - PHP 7.4+
 - WooCommerce 3.0+
-- User capability: `manage_woocommerce`
+- Право пользователя: `manage_woocommerce`
 
-### Quick Links
+### Быстрые ссылки
 
-- **Plugin Documentation**: [`woo-price-editor/README.md`](woo-price-editor/README.md)
-- **Installation Guide**: [`woo-price-editor/docs/installation.md`](woo-price-editor/docs/installation.md)
-- **Settings Documentation**: [`woo-price-editor/docs/settings.md`](woo-price-editor/docs/settings.md)
-- **AJAX API Reference**: [`woo-price-editor/docs/ajax-endpoints.md`](woo-price-editor/docs/ajax-endpoints.md)
-- **Technical Notes**: [`woo-price-editor/docs/technical-notes.md`](woo-price-editor/docs/technical-notes.md)
-- **Running Tests**: [`woo-price-editor/tests/README.md`](woo-price-editor/tests/README.md)
+- **Документация плагина**: [`woo-price-editor/README.md`](woo-price-editor/README.md)
+- **Руководство по установке**: [`woo-price-editor/docs/installation.md`](woo-price-editor/docs/installation.md)
+- **Документация по настройкам**: [`woo-price-editor/docs/settings.md`](woo-price-editor/docs/settings.md)
+- **Справочник AJAX API**: [`woo-price-editor/docs/ajax-endpoints.md`](woo-price-editor/docs/ajax-endpoints.md)
+- **Технические заметки**: [`woo-price-editor/docs/technical-notes.md`](woo-price-editor/docs/technical-notes.md)
+- **Запуск тестов**: [`woo-price-editor/tests/README.md`](woo-price-editor/tests/README.md)
 
-### Modern Plugin Structure
+### Современная структура плагина
 
 ```
 woo-price-editor/
-├── assets/              # CSS and JavaScript files
+├── assets/              # Файлы CSS и JavaScript
 │   ├── css/
 │   │   ├── editor.css
 │   │   └── settings.css
 │   └── js/
 │       └── editor.js
-├── docs/                # Comprehensive documentation
+├── docs/                # Полная документация
 │   ├── installation.md
 │   ├── capabilities.md
 │   ├── settings.md
 │   ├── ajax-endpoints.md
 │   └── technical-notes.md
-├── includes/            # PHP classes (MVC pattern)
-│   ├── class-wpe-plugin.php      # Main plugin controller
-│   ├── class-wpe-ajax.php        # AJAX handlers
-│   ├── class-wpe-api.php         # REST API endpoints
-│   ├── class-wpe-product.php     # Product data model
-│   ├── class-wpe-security.php    # Security utilities
-│   └── class-wpe-settings.php    # Settings page
-├── templates/           # View templates
+├── includes/            # PHP классы (паттерн MVC)
+│   ├── class-wpe-plugin.php      # Основной контроллер плагина
+│   ├── class-wpe-ajax.php        # Обработчики AJAX
+│   ├── class-wpe-api.php         # Конечные точки REST API
+│   ├── class-wpe-product.php     # Модель данных товара
+│   ├── class-wpe-security.php    # Утилиты безопасности
+│   └── class-wpe-settings.php    # Страница настроек
+├── templates/           # Шаблоны представлений
 │   └── editor-shell.php
-├── tests/               # PHPUnit test suite
+├── tests/               # Набор тестов PHPUnit
 │   ├── bootstrap.php
 │   ├── phpunit.xml.dist
 │   ├── README.md
 │   ├── test-option-defaults.php
 │   └── test-ajax-permissions.php
-├── woo-price-editor.php # Main plugin file (bootstrap)
-└── README.md            # Plugin documentation
+├── woo-price-editor.php # Основной файл плагина (загрузчик)
+└── README.md            # Документация плагина
 ```
 
 ## Архитектура и структура
 
-### Legacy File Structure (Standalone Pages)
+### Унаследованная файловая структура (Автономные страницы)
 
 ### Файловая структура
 
@@ -116,7 +116,7 @@ woo-price-editor/
 - **Backend**: PHP 7.4+, WordPress/WooCommerce API
 - **Frontend**: HTML5, CSS3, JavaScript (ES6+), jQuery 3.6.0
 - **UI библиотеки**: DataTables для таблиц с серверной обработкой
-- **База данных**: WordPress posts/meta + WooCommerce product метаданные
+- **База данных**: WordPress posts/meta + WooCommerce метаданные товаров
 
 ## Логика работы
 
@@ -132,7 +132,7 @@ if (!current_user_can('manage_woocommerce')) {
 }
 ```
 
-### 2. Frontend инициализация (assets/js/price_editor.js)
+### 2. Инициализация Frontend (assets/js/price_editor.js)
 
 Модульная архитектура JavaScript с разделением ответственности:
 
@@ -142,12 +142,12 @@ if (!current_user_can('manage_woocommerce')) {
 
 ### 3. Поток данных
 
-1. **Загрузка данных**: AJAX запросы к `api/standalone_api.php`
+1. **Загрузка данных**: AJAX-запросы к `api/standalone_api.php`
 2. **Отображение**: DataTable с кастомными рендерами для редактируемых полей
-3. **Редактирование**: Inline-редактирование с автосохранением
+3. **Редактирование**: Встроенное редактирование с автосохранением
 4. **Обновление**: Отправка изменений через API обратно в WooCommerce
 
-## API Endpoints (api/standalone_api.php)
+## Конечные точки API (api/standalone_api.php)
 
 ### 1. Получение категорий товаров
 
@@ -246,7 +246,7 @@ Response: {
 Модуль работы с данными:
 
 - **Загрузка данных**: Категории и налоговые классы через AJAX
-- **API взаимодействие**: Все запросы к backend
+- **Взаимодействие с API**: Все запросы к backend
 - **Автосохранение**: Автоматическое сохранение изменений при потере фокуса
 - **Сохранение**: Функции сохранения для всех типов полей (название, цены, налоги, наличие)
 
@@ -254,8 +254,8 @@ Response: {
 
 Модуль редактирования полей:
 
-- **UI элементы**: Создание input и select полей
-- **Inline-редактирование**: Обработка клика по тексту для редактирования
+- **UI элементы**: Создание полей input и select
+- **Встроенное редактирование**: Обработка клика по тексту для редактирования
 - **Привязка событий**: События для редактируемых полей
 - **Функции отмены**: Восстановление исходных значений при отмене
 
@@ -276,7 +276,7 @@ Response: {
 - **Поиск**: Реализация поиска с задержкой
 - **Вспомогательные функции**: Работа со статусами и форматированием
 
-#### DataTable конфигурация
+#### Конфигурация DataTable
 
 - Серверная обработка через AJAX
 - Кастомные рендеры для редактируемых полей
@@ -340,9 +340,9 @@ LEFT JOIN {$wpdb->postmeta} pm_sku ON p.ID = pm_sku.post_id AND pm_sku.meta_key 
 ## Безопасность
 
 - **Проверка прав доступа**: Только пользователи с правом `manage_woocommerce`
-- **Сантизация данных**: `sanitize_text_field()` для всех входящих данных
+- **Санитизация данных**: `sanitize_text_field()` для всех входящих данных
 - **Подготовленные запросы**: `wpdb->prepare()` для SQL запросов
-- **CSRF защита**: WordPress nonce (можно добавить)
+- **Защита от CSRF**: WordPress nonce (можно добавить)
 
 ## Возможности
 
@@ -357,13 +357,13 @@ LEFT JOIN {$wpdb->postmeta} pm_sku ON p.ID = pm_sku.post_id AND pm_sku.meta_key 
 
 ### Редактирование
 
-- **Названия товаров**: Inline-редактирование с кнопками сохранения/отмены
+- **Названия товаров**: Встроенное редактирование с кнопками сохранения/отмены
 - **Цены**: Обычная цена и цена со скидкой с автосохранением
 - **Налоговые настройки**: Статус налога и налоговый класс (аналогично наличию)
 - **Наличие товара**: Статусы наличия с автосохранением
 - **Автосохранение**: Мгновенное сохранение при изменении
 
-### UI/UX особенности
+### Особенности UI/UX
 
 - Модульная архитектура для лучшей поддерживаемости
 - Адаптивный дизайн для мобильных устройств
@@ -391,7 +391,7 @@ LEFT JOIN {$wpdb->postmeta} pm_sku ON p.ID = pm_sku.post_id AND pm_sku.meta_key 
 - Поддержка мультикатегорий товаров
 - Совместимость с произвольными полями WooCommerce
 
-### Браузерная поддержка
+### Поддержка браузеров
 
 - Современные браузеры с поддержкой ES6+
 - jQuery 3.6.0+
