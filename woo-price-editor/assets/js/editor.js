@@ -1,9 +1,9 @@
 /**
- * WooCommerce Price Editor - Frontend JavaScript
+ * Редактор цен WooCommerce - Frontend JavaScript
  *
- * Combined and optimized JavaScript for the price editor frontend.
- * Implements modular architecture with proper security, error handling,
- * and performance optimizations for the full-screen editor.
+ * Объединённый и оптимизированный JavaScript для фронтенда редактора цен.
+ * Реализует модульную архитектуру с надлежащей безопасностью, обработкой ошибок
+ * и оптимизацией производительности для полноэкранного редактора.
  *
  * @package WooPriceEditor
  * @since 1.0.0
@@ -111,7 +111,7 @@
                 if (allowEmpty) {
                     return { valid: true, value: '' };
                 }
-                return { valid: false, error: Config.i18n.invalidPrice || 'Invalid price' };
+                return { valid: false, error: Config.i18n.invalidPrice || 'Неверное значение цены' };
             }
 
             // Replace comma with dot and remove non-numeric chars
@@ -119,15 +119,15 @@
             const num = parseFloat(normalized);
 
             if (isNaN(num)) {
-                return { valid: false, error: Config.i18n.invalidPrice || 'Invalid price' };
+                return { valid: false, error: Config.i18n.invalidPrice || 'Неверное значение цены' };
             }
 
             if (num < 0) {
-                return { valid: false, error: Config.i18n.negativePrice || 'Price cannot be negative' };
+                return { valid: false, error: Config.i18n.negativePrice || 'Цена не может быть отрицательной' };
             }
 
             if (num > 999999999.99) {
-                return { valid: false, error: Config.i18n.invalidPrice || 'Price too large' };
+                return { valid: false, error: Config.i18n.invalidPrice || 'Слишком большое значение цены' };
             }
 
             return { valid: true, value: num.toFixed(2) };
@@ -142,11 +142,11 @@
             const trimmed = String(value).trim();
             
             if (trimmed === '') {
-                return { valid: false, error: Config.i18n.emptyTitle || 'Title cannot be empty' };
+                return { valid: false, error: Config.i18n.emptyTitle || 'Название не может быть пустым' };
             }
 
             if (trimmed.length > 200) {
-                return { valid: false, error: 'Title too long (max 200 characters)' };
+                return { valid: false, error: 'Название слишком длинное (макс. 200 символов)' };
             }
 
             return { valid: true, value: trimmed };
@@ -314,7 +314,7 @@
             const html = `
                 <div id="${id}" class="wpe-notification wpe-notification-${Utils.escapeAttr(type)}">
                     <span class="wpe-notification-message">${Utils.escapeHtml(message)}</span>
-                    <button type="button" class="wpe-notification-close" aria-label="Close">
+                    <button type="button" class="wpe-notification-close" aria-label="Закрыть">
                         <span class="dashicons dashicons-no-alt"></span>
                     </button>
                 </div>
