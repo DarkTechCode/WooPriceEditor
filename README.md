@@ -1,11 +1,80 @@
 # WooEditPrice
-wordpress plugin for woocommerce
+WordPress plugin for WooCommerce price editing
 
-## Основное назначение
+## Overview
 
-Проект предоставляет интерфейс для редактирования цен товаров WooCommerce с расширенными возможностями фильтрации, поиска и inline-редактирования.
+This project provides an interface for editing WooCommerce product prices with advanced filtering, search, and inline editing capabilities. The plugin is now structured as a modular WordPress plugin located in the `woo-price-editor/` directory.
+
+## New Plugin Structure
+
+The main plugin code has been refactored into a standard WordPress plugin structure:
+
+**Location**: `/woo-price-editor/`
+
+**Key Features**:
+- ✓ Full-screen editor interface with distraction-free editing
+- ✓ AJAX-based product operations with proper security
+- ✓ Configurable settings (start category, default columns, instructions)
+- ✓ WordPress-bundled jQuery (no version conflicts)
+- ✓ Comprehensive documentation in `docs/` directory
+- ✓ PHPUnit test suite with coverage in `tests/` directory
+- ✓ Compatible with WordPress 6.0+ and latest WooCommerce
+
+**Documentation**: See `/woo-price-editor/README.md` for full plugin documentation
+
+**Requirements**:
+- WordPress 6.0+
+- PHP 7.4+
+- WooCommerce 3.0+
+- User capability: `manage_woocommerce`
+
+### Quick Links
+
+- **Plugin Documentation**: [`woo-price-editor/README.md`](woo-price-editor/README.md)
+- **Installation Guide**: [`woo-price-editor/docs/installation.md`](woo-price-editor/docs/installation.md)
+- **Settings Documentation**: [`woo-price-editor/docs/settings.md`](woo-price-editor/docs/settings.md)
+- **AJAX API Reference**: [`woo-price-editor/docs/ajax-endpoints.md`](woo-price-editor/docs/ajax-endpoints.md)
+- **Technical Notes**: [`woo-price-editor/docs/technical-notes.md`](woo-price-editor/docs/technical-notes.md)
+- **Running Tests**: [`woo-price-editor/tests/README.md`](woo-price-editor/tests/README.md)
+
+### Modern Plugin Structure
+
+```
+woo-price-editor/
+├── assets/              # CSS and JavaScript files
+│   ├── css/
+│   │   ├── editor.css
+│   │   └── settings.css
+│   └── js/
+│       └── editor.js
+├── docs/                # Comprehensive documentation
+│   ├── installation.md
+│   ├── capabilities.md
+│   ├── settings.md
+│   ├── ajax-endpoints.md
+│   └── technical-notes.md
+├── includes/            # PHP classes (MVC pattern)
+│   ├── class-wpe-plugin.php      # Main plugin controller
+│   ├── class-wpe-ajax.php        # AJAX handlers
+│   ├── class-wpe-api.php         # REST API endpoints
+│   ├── class-wpe-product.php     # Product data model
+│   ├── class-wpe-security.php    # Security utilities
+│   └── class-wpe-settings.php    # Settings page
+├── templates/           # View templates
+│   └── editor-shell.php
+├── tests/               # PHPUnit test suite
+│   ├── bootstrap.php
+│   ├── phpunit.xml.dist
+│   ├── README.md
+│   ├── test-option-defaults.php
+│   └── test-ajax-permissions.php
+├── woo-price-editor.php # Main plugin file (bootstrap)
+└── README.md            # Plugin documentation
+```
 
 ## Архитектура и структура
+
+### Legacy File Structure (Standalone Pages)
 
 ### Файловая структура
 
