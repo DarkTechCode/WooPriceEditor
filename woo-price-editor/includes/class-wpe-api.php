@@ -1,23 +1,23 @@
 <?php
 /**
- * REST API class
+ * Класс REST API
  *
- * Provides REST API endpoints for the price editor
- * with proper security, validation, and error handling.
+ * Предоставляет REST API маршруты для редактора цен
+ * с надлежащей безопасностью, валидацией и обработкой ошибок.
  *
  * @package WooPriceEditor
  * @since 1.0.0
  */
 
-// Prevent direct access
+// Предотвратить прямой доступ
 if (!defined('ABSPATH')) {
     exit;
 }
 
 /**
- * Class WPE_API
+ * Класс WPE_API
  *
- * Handles REST API endpoints for product operations
+ * Обрабатывает REST API маршруты для операций с товарами
  */
 class WPE_API {
 
@@ -98,25 +98,25 @@ class WPE_API {
         if (!is_user_logged_in()) {
             return new WP_Error(
                 'rest_not_logged_in',
-                __('You must be logged in to access this endpoint.', 'woo-price-editor'),
+                __('Необходимо войти в систему, чтобы получить доступ к этому маршруту.', 'woo-price-editor'),
                 ['status' => 401]
             );
         }
 
-        // Check capability
+        // Проверка прав
         if (!WPE_Security::can_manage_products()) {
             return new WP_Error(
                 'rest_forbidden',
-                __('You do not have permission to manage products.', 'woo-price-editor'),
+                __('У вас нет прав для управления товарами.', 'woo-price-editor'),
                 ['status' => 403]
             );
         }
 
-        // Check rate limit
+        // Проверка ограничения по запросам
         if (!WPE_Security::check_rate_limit()) {
             return new WP_Error(
                 'rest_rate_limit',
-                __('Rate limit exceeded. Please try again later.', 'woo-price-editor'),
+                __('Превышен лимит запросов. Попробуйте позже.', 'woo-price-editor'),
                 ['status' => 429]
             );
         }
@@ -142,7 +142,7 @@ class WPE_API {
         if (!WPE_Security::can_edit_product($product_id)) {
             return new WP_Error(
                 'rest_forbidden',
-                __('You do not have permission to edit this product.', 'woo-price-editor'),
+                __('У вас нет прав для редактирования этого товара.', 'woo-price-editor'),
                 ['status' => 403]
             );
         }
@@ -252,7 +252,7 @@ class WPE_API {
                         'rest_forbidden',
                         sprintf(
                             /* translators: %d: Product ID */
-                            __('You do not have permission to edit product #%d.', 'woo-price-editor'),
+                            __('У вас нет прав для редактирования товара #%d.', 'woo-price-editor'),
                             $id
                         ),
                         ['status' => 403]
@@ -321,14 +321,14 @@ class WPE_API {
     private function get_products_args() {
         return [
             'page' => [
-                'description'       => __('Current page number', 'woo-price-editor'),
+                'description'       => __('Номер текущей страницы', 'woo-price-editor'),
                 'type'              => 'integer',
                 'default'           => 1,
                 'minimum'           => 1,
                 'sanitize_callback' => 'absint',
             ],
             'per_page' => [
-                'description'       => __('Items per page', 'woo-price-editor'),
+                'description'       => __('Записей на странице', 'woo-price-editor'),
                 'type'              => 'integer',
                 'default'           => 50,
                 'minimum'           => 10,
@@ -336,47 +336,47 @@ class WPE_API {
                 'sanitize_callback' => 'absint',
             ],
             'status' => [
-                'description'       => __('Filter by product status', 'woo-price-editor'),
+                'description'       => __('Фильтр по статусу товара', 'woo-price-editor'),
                 'type'              => 'string',
                 'enum'              => ['', 'publish', 'draft', 'private', 'pending'],
                 'default'           => '',
                 'sanitize_callback' => 'sanitize_text_field',
             ],
             'category' => [
-                'description'       => __('Filter by category slug', 'woo-price-editor'),
+                'description'       => __('Фильтр по слагу категории', 'woo-price-editor'),
                 'type'              => 'string',
                 'default'           => '',
                 'sanitize_callback' => 'sanitize_text_field',
             ],
             'search' => [
-                'description'       => __('Search by title, SKU, or ID', 'woo-price-editor'),
+                'description'       => __('Поиск по названию, артикулу или ID', 'woo-price-editor'),
                 'type'              => 'string',
                 'default'           => '',
                 'sanitize_callback' => 'sanitize_text_field',
             ],
             'tax_status' => [
-                'description'       => __('Filter by tax status', 'woo-price-editor'),
+                'description'       => __('Фильтр по налоговому статусу', 'woo-price-editor'),
                 'type'              => 'string',
                 'enum'              => ['', 'taxable', 'shipping', 'none'],
                 'default'           => '',
                 'sanitize_callback' => 'sanitize_text_field',
             ],
             'stock_status' => [
-                'description'       => __('Filter by stock status', 'woo-price-editor'),
+                'description'       => __('Фильтр по статусу наличия', 'woo-price-editor'),
                 'type'              => 'string',
                 'enum'              => ['', 'instock', 'outofstock', 'onbackorder'],
                 'default'           => '',
                 'sanitize_callback' => 'sanitize_text_field',
             ],
             'orderby' => [
-                'description'       => __('Order by field', 'woo-price-editor'),
+                'description'       => __('Сортировать по полю', 'woo-price-editor'),
                 'type'              => 'string',
                 'enum'              => ['ID', 'title', 'date', 'modified', 'price'],
                 'default'           => 'ID',
                 'sanitize_callback' => 'sanitize_text_field',
             ],
             'order' => [
-                'description'       => __('Order direction', 'woo-price-editor'),
+                'description'       => __('Направление сортировки', 'woo-price-editor'),
                 'type'              => 'string',
                 'enum'              => ['ASC', 'DESC'],
                 'default'           => 'DESC',
@@ -393,36 +393,36 @@ class WPE_API {
     private function get_update_args() {
         return [
             'id' => [
-                'description'       => __('Product ID', 'woo-price-editor'),
+                'description'       => __('ID товара', 'woo-price-editor'),
                 'type'              => 'integer',
                 'required'          => true,
                 'sanitize_callback' => 'absint',
             ],
             'field' => [
-                'description'       => __('Field to update', 'woo-price-editor'),
+                'description'       => __('Поле для обновления', 'woo-price-editor'),
                 'type'              => 'string',
                 'required'          => true,
                 'enum'              => ['title', 'regular_price', 'sale_price', 'tax_status', 'tax_class', 'stock_status'],
                 'sanitize_callback' => 'sanitize_text_field',
             ],
             'value' => [
-                'description'       => __('New value', 'woo-price-editor'),
+                'description'       => __('Новое значение', 'woo-price-editor'),
                 'type'              => 'string',
                 'required'          => true,
-                // Sanitization is handled by WPE_Security::sanitize_field
+                // Санитизация выполняется в WPE_Security::sanitize_field
             ],
         ];
     }
 
     /**
-     * Get arguments for bulk_update_products endpoint
+     * Параметры для bulk_update_products
      *
      * @return array
      */
     private function get_bulk_update_args() {
         return [
             'product_ids' => [
-                'description' => __('Array of product IDs', 'woo-price-editor'),
+                'description' => __('Массив ID товаров', 'woo-price-editor'),
                 'type'        => 'array',
                 'required'    => true,
                 'items'       => [
@@ -430,14 +430,14 @@ class WPE_API {
                 ],
             ],
             'field' => [
-                'description'       => __('Field to update', 'woo-price-editor'),
+                'description'       => __('Поле для обновления', 'woo-price-editor'),
                 'type'              => 'string',
                 'required'          => true,
                 'enum'              => ['title', 'regular_price', 'sale_price', 'tax_status', 'tax_class', 'stock_status'],
                 'sanitize_callback' => 'sanitize_text_field',
             ],
             'value' => [
-                'description' => __('New value', 'woo-price-editor'),
+                'description' => __('Новое значение', 'woo-price-editor'),
                 'type'        => 'string',
                 'required'    => true,
             ],

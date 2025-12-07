@@ -1,6 +1,6 @@
 <?php
 /**
- * Core plugin bootstrapper.
+ * Основной загрузчик плагина.
  *
  * @package WooPriceEditor
  */
@@ -9,28 +9,28 @@ defined('ABSPATH') || exit;
 
 class WPE_Plugin {
     /**
-     * Singleton instance.
+     * Экземпляр синглтона.
      *
      * @var WPE_Plugin|null
      */
     private static $instance = null;
 
     /**
-     * Stored hook suffix for the admin page.
+     * Суффикс хука для страницы администратора.
      *
      * @var string
      */
     private $page_hook = '';
 
     /**
-     * Cached nonce for the editor session.
+     * Кешированный nonce для сессии редактора.
      *
      * @var string
      */
     private $editor_nonce = '';
 
     /**
-     * Retrieve the singleton instance.
+     * Получить экземпляр синглтона.
      *
      * @return WPE_Plugin
      */
@@ -43,9 +43,9 @@ class WPE_Plugin {
     }
 
     /**
-     * Activation callback.
+     * Обработчик активации плагина.
      *
-     * Seeds default editor options and handles migration.
+     * Устанавливает параметры редактора по умолчанию и обрабатывает миграцию.
      *
      * @return void
      */
@@ -75,7 +75,7 @@ class WPE_Plugin {
     }
 
     /**
-     * Default option values for the editor shell.
+     * Значения настроек по умолчанию для оболочки редактора.
      *
      * @return array
      */
@@ -94,31 +94,31 @@ class WPE_Plugin {
     }
 
     /**
-     * Get default instructions text.
+     * Получить текст инструкций по умолчанию.
      *
-     * @return string Default instructions.
+     * @return string Инструкции по умолчанию.
      */
     private static function get_default_instructions() {
         return __(
-            "Welcome to the Woo Price Editor! This tool allows you to quickly edit product information in bulk.\n\n" .
-            "How to use:\n" .
-            "• Click on any editable field to modify it directly\n" .
-            "• Price fields: Enter new prices and they'll be saved automatically when you click away\n" .
-            "• Title field: Click to edit, then press Enter to save or Escape to cancel\n" .
-            "• Dropdown fields: Select new values from the dropdown menu\n" .
-            "• Use the filters above the table to narrow down products\n" .
-            "• Toggle column visibility using the column checkboxes\n" .
-            "• All changes are saved automatically to your WooCommerce store\n\n" .
-            "Tips:\n" .
-            "• Use the search bar to find products by title, SKU, or ID\n" .
-            "• Filter by category, status, tax status, or stock status\n" .
-            "• Click the edit or view icons to open products in the standard WooCommerce interface",
+            "Добро пожаловать в редактор цен Woo! Этот инструмент позволяет быстро редактировать информацию о товарах в массовом режиме.\n\n" .
+            "Как использовать:\n" .
+            "• Кликните на любое редактируемое поле для его изменения\n" .
+            "• Поля цен: Введите новые цены, они будут сохранены автоматически при клике вне поля\n" .
+            "• Поле названия: Кликните для редактирования, затем нажмите Enter для сохранения или Escape для отмены\n" .
+            "• Выпадающие списки: Выберите новые значения из выпадающего меню\n" .
+            "• Используйте фильтры над таблицей для фильтрации товаров\n" .
+            "• Переключайте видимость колонок с помощью чекбоксов\n" .
+            "• Все изменения сохраняются автоматически в вашем магазине WooCommerce\n\n" .
+            "Советы:\n" .
+            "• Используйте строку поиска для поиска товаров по названию, артикулу или ID\n" .
+            "• Фильтруйте по категории, статусу, налоговому статусу или статусу наличия\n" .
+            "• Кликните на иконки редактирования или просмотра для открытия товара в стандартном интерфейсе WooCommerce",
             'woo-price-editor'
         );
     }
 
     /**
-     * Initialize hooks when plugins are loaded.
+     * Инициализировать хуки после загрузки плагинов.
      *
      * @return void
      */
@@ -141,14 +141,14 @@ class WPE_Plugin {
     }
 
     /**
-     * Register the top-level admin menu entry for the editor.
+     * Зарегистрировать пункт меню администратора верхнего уровня для редактора.
      *
      * @return void
      */
     public function register_admin_menu() {
         $this->page_hook = add_menu_page(
-            __('Woo Price Editor', 'woo-price-editor'),
-            __('Price Editor', 'woo-price-editor'),
+            __('Редактор цен Woo', 'woo-price-editor'),
+            __('Редактор цен', 'woo-price-editor'),
             'manage_woocommerce',
             'woo-price-editor',
             [$this, 'render_placeholder_screen'],
@@ -162,7 +162,7 @@ class WPE_Plugin {
     }
 
     /**
-     * Prepare per-request context such as the editor nonce.
+     * Подготовить контекст для каждого запроса, такой как nonce редактора.
      *
      * @return void
      */
@@ -175,10 +175,10 @@ class WPE_Plugin {
     }
 
     /**
-     * Enqueue admin assets for the editor.
-     * Loads DataTables, plugin CSS/JS, and localizes dynamic data.
+     * Подключить административные ресурсы редактора.
+     * Загружает DataTables, CSS/JS плагина и передаёт динамические данные.
      *
-     * @param string $hook_suffix Current admin page suffix.
+     * @param string $hook_suffix Текущий суффикс страницы администратора.
      * @return void
      */
     public function enqueue_admin_assets($hook_suffix) {
@@ -226,60 +226,60 @@ class WPE_Plugin {
         // Get current settings for localization
         $settings = get_option('wpe_editor_settings', self::get_default_options());
 
-        // Localize script with dynamic data
+        // Передать локализованные данные в скрипт
         wp_localize_script('wpe-editor', 'wpeData', [
             'restUrl'        => rest_url('woo-price-editor/v1'),
             'nonce'          => wp_create_nonce('wp_rest'),
             'ajaxUrl'        => admin_url('admin-ajax.php'),
-            'pageLength'     => 50, // Default page length
+            'pageLength'     => 50, // Размер страницы по умолчанию
             'defaultColumns' => $settings['default_columns'] ?? [],
             'startCategory'  => $settings['start_category'] ?? 'all',
             'i18n'           => [
-                'loading'          => __('Loading...', 'woo-price-editor'),
-                'saved'            => __('Saved', 'woo-price-editor'),
-                'cancel'           => __('Cancel', 'woo-price-editor'),
-                'edit'             => __('Edit', 'woo-price-editor'),
-                'view'             => __('View', 'woo-price-editor'),
-                'show'             => __('Show', 'woo-price-editor'),
-                'entries'          => __('entries', 'woo-price-editor'),
-                'showing'          => __('Showing', 'woo-price-editor'),
-                'of'               => __('of', 'woo-price-editor'),
-                'products'         => __('products', 'woo-price-editor'),
-                'page'             => __('Page', 'woo-price-editor'),
-                'previous'         => __('Previous', 'woo-price-editor'),
-                'next'             => __('Next', 'woo-price-editor'),
-                'first'            => __('First', 'woo-price-editor'),
-                'last'             => __('Last', 'woo-price-editor'),
-                'search'           => __('Search:', 'woo-price-editor'),
-                'noData'           => __('No products found', 'woo-price-editor'),
-                'filteredFrom'     => __('filtered from', 'woo-price-editor'),
-                'total'            => __('total', 'woo-price-editor'),
-                'notAuthenticated' => __('Please log in again', 'woo-price-editor'),
-                'forbidden'        => __('You do not have permission', 'woo-price-editor'),
-                'rateLimitExceeded' => __('Too many requests. Please wait.', 'woo-price-editor'),
-                'timeout'          => __('Request timed out', 'woo-price-editor'),
-                'networkError'     => __('Network error. Please check your connection.', 'woo-price-editor'),
-                'serverError'      => __('Server error. Please try again later.', 'woo-price-editor'),
-                'invalidPrice'     => __('Invalid price value', 'woo-price-editor'),
-                'negativePrice'    => __('Price cannot be negative', 'woo-price-editor'),
-                'emptyTitle'       => __('Title cannot be empty', 'woo-price-editor'),
-                'instock'          => __('In Stock', 'woo-price-editor'),
-                'outofstock'      => __('Out of Stock', 'woo-price-editor'),
-                'onbackorder'      => __('On Backorder', 'woo-price-editor'),
-                'taxable'          => __('Taxable', 'woo-price-editor'),
-                'shipping'         => __('Shipping only', 'woo-price-editor'),
-                'none'             => __('None', 'woo-price-editor'),
-                'standard'         => __('Standard', 'woo-price-editor'),
-                'publish'          => __('Published', 'woo-price-editor'),
-                'draft'            => __('Draft', 'woo-price-editor'),
-                'private'          => __('Private', 'woo-price-editor'),
-                'pending'          => __('Pending', 'woo-price-editor'),
+                'loading'          => __('Загрузка...', 'woo-price-editor'),
+                'saved'            => __('Сохранено', 'woo-price-editor'),
+                'cancel'           => __('Отмена', 'woo-price-editor'),
+                'edit'             => __('Редактировать', 'woo-price-editor'),
+                'view'             => __('Просмотр', 'woo-price-editor'),
+                'show'             => __('Показать', 'woo-price-editor'),
+                'entries'          => __('записей', 'woo-price-editor'),
+                'showing'          => __('Показано', 'woo-price-editor'),
+                'of'               => __('из', 'woo-price-editor'),
+                'products'         => __('товаров', 'woo-price-editor'),
+                'page'             => __('Страница', 'woo-price-editor'),
+                'previous'         => __('Предыдущая', 'woo-price-editor'),
+                'next'             => __('Следующая', 'woo-price-editor'),
+                'first'            => __('Первая', 'woo-price-editor'),
+                'last'             => __('Последняя', 'woo-price-editor'),
+                'search'           => __('Поиск:', 'woo-price-editor'),
+                'noData'           => __('Товары не найдены', 'woo-price-editor'),
+                'filteredFrom'     => __('отфильтровано из', 'woo-price-editor'),
+                'total'            => __('всего', 'woo-price-editor'),
+                'notAuthenticated' => __('Пожалуйста, войдите снова', 'woo-price-editor'),
+                'forbidden'        => __('У вас нет прав доступа', 'woo-price-editor'),
+                'rateLimitExceeded' => __('Слишком много запросов. Пожалуйста, подождите.', 'woo-price-editor'),
+                'timeout'          => __('Превышено время ожидания запроса', 'woo-price-editor'),
+                'networkError'     => __('Ошибка сети. Проверьте подключение.', 'woo-price-editor'),
+                'serverError'      => __('Ошибка сервера. Попробуйте позже.', 'woo-price-editor'),
+                'invalidPrice'     => __('Неверное значение цены', 'woo-price-editor'),
+                'negativePrice'    => __('Цена не может быть отрицательной', 'woo-price-editor'),
+                'emptyTitle'       => __('Название не может быть пустым', 'woo-price-editor'),
+                'instock'          => __('В наличии', 'woo-price-editor'),
+                'outofstock'      => __('Нет в наличии', 'woo-price-editor'),
+                'onbackorder'      => __('Под заказ', 'woo-price-editor'),
+                'taxable'          => __('Облагается налогом', 'woo-price-editor'),
+                'shipping'         => __('Только доставка', 'woo-price-editor'),
+                'none'             => __('Нет', 'woo-price-editor'),
+                'standard'         => __('Стандартный', 'woo-price-editor'),
+                'publish'          => __('Опубликован', 'woo-price-editor'),
+                'draft'            => __('Черновик', 'woo-price-editor'),
+                'private'          => __('Приватный', 'woo-price-editor'),
+                'pending'          => __('Ожидает', 'woo-price-editor'),
             ],
         ]);
     }
 
     /**
-     * Fallback renderer if the load hook is bypassed.
+     * Резервный рендер, если хук загрузки был пропущен.
      *
      * @return void
      */
@@ -288,7 +288,7 @@ class WPE_Plugin {
     }
 
     /**
-     * Ensure the current user can access the editor.
+     * Проверить, может ли текущий пользователь открыть редактор.
      *
      * @return void
      */
@@ -299,15 +299,15 @@ class WPE_Plugin {
 
         if (!current_user_can('manage_woocommerce')) {
             wp_die(
-                esc_html__('You do not have permission to access the Woo Price Editor.', 'woo-price-editor'),
-                esc_html__('Access denied', 'woo-price-editor'),
+                esc_html__('У вас нет прав для доступа к редактору цен Woo.', 'woo-price-editor'),
+                esc_html__('Доступ запрещён', 'woo-price-editor'),
                 ['response' => 403]
             );
         }
     }
 
     /**
-     * Render the full-screen editor shell and bypass standard wp-admin chrome.
+     * Отрисовать полноэкранную оболочку редактора, минуя стандартный интерфейс wp-admin.
      *
      * @return void
      */
@@ -327,8 +327,8 @@ class WPE_Plugin {
 
         if (!file_exists($template)) {
             wp_die(
-                esc_html__('The editor template could not be located.', 'woo-price-editor'),
-                esc_html__('Template missing', 'woo-price-editor'),
+                esc_html__('Не удалось найти шаблон редактора.', 'woo-price-editor'),
+                esc_html__('Шаблон отсутствует', 'woo-price-editor'),
                 ['response' => 500]
             );
         }

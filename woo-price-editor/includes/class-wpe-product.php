@@ -86,10 +86,10 @@ class WPE_Product {
         if ($tax_classes === false) {
             $tax_classes = [];
 
-            // Standard rate (empty slug)
+            // Стандартная ставка (пустой slug)
             $tax_classes[] = [
                 'slug' => '',
-                'name' => __('Standard', 'woo-price-editor'),
+                'name' => __('Стандартный', 'woo-price-editor'),
             ];
 
             // Get WooCommerce tax classes
@@ -265,11 +265,11 @@ class WPE_Product {
         if (!$product) {
             return [
                 'success' => false,
-                'message' => __('Product not found', 'woo-price-editor'),
+                'message' => __('Товар не найден', 'woo-price-editor'),
             ];
         }
 
-        // Get field configuration
+        // Получить конфигурацию полей
         $field_config = WPE_Security::get_field_config();
 
         if (!isset($field_config[$field])) {
@@ -277,7 +277,7 @@ class WPE_Product {
                 'success' => false,
                 'message' => sprintf(
                     /* translators: %s: Field name */
-                    __('Unknown field: %s', 'woo-price-editor'),
+                    __('Неизвестное поле: %s', 'woo-price-editor'),
                     $field
                 ),
             ];
@@ -321,14 +321,14 @@ class WPE_Product {
         if (!$result) {
             return [
                 'success' => false,
-                'message' => __('Failed to save product', 'woo-price-editor'),
+                'message' => __('Не удалось сохранить товар', 'woo-price-editor'),
             ];
         }
 
-        // Clear product cache
+        // Очистить кеш товара
         wc_delete_product_transients($product_id);
 
-        // Log the change
+        // Записать событие
         WPE_Security::log_event('product_updated', [
             'product_id' => $product_id,
             'field'      => $field,
@@ -336,13 +336,13 @@ class WPE_Product {
             'new_value'  => $sanitized_value,
         ]);
 
-        // Fire action for extensibility
+        // Хук для расширения
         do_action('wpe_product_updated', $product_id, $field, $old_value, $sanitized_value);
 
-        // Build success message
+        // Сообщение об успехе
         $message = sprintf(
             /* translators: 1: Field label, 2: Product ID, 3: Old value, 4: New value */
-            __('%1$s for product #%2$d changed: %3$s → %4$s', 'woo-price-editor'),
+            __('Поле %1$s для товара #%2$d изменено: %3$s → %4$s', 'woo-price-editor'),
             $config['label'],
             $product_id,
             $old_value !== '' ? $old_value : '—',

@@ -143,7 +143,7 @@ class WPE_Security {
             throw new InvalidArgumentException(
                 sprintf(
                     /* translators: %s: Field name */
-                    __('Unknown field: %s', 'woo-price-editor'),
+                    __('Неизвестное поле: %s', 'woo-price-editor'),
                     $field
                 )
             );
@@ -183,7 +183,7 @@ class WPE_Security {
                 if (!in_array($value, $valid_statuses, true)) {
                     $result = [
                         'valid' => false,
-                        'error' => __('Invalid tax status value', 'woo-price-editor'),
+                        'error' => __('Недопустимое значение налогового статуса', 'woo-price-editor'),
                     ];
                 }
                 break;
@@ -193,7 +193,7 @@ class WPE_Security {
                 if (!in_array($value, $valid_statuses, true)) {
                     $result = [
                         'valid' => false,
-                        'error' => __('Invalid stock status value', 'woo-price-editor'),
+                        'error' => __('Недопустимое значение статуса наличия', 'woo-price-editor'),
                     ];
                 }
                 break;
@@ -223,20 +223,20 @@ class WPE_Security {
             }
             return [
                 'valid' => false,
-                'error' => __('Price cannot be empty', 'woo-price-editor'),
+                'error' => __('Цена не может быть пустой', 'woo-price-editor'),
             ];
         }
 
-        // Replace comma with dot for decimal
+        // Заменить запятую на точку для дробной части
         $price = str_replace(',', '.', $price);
 
-        // Remove currency symbols and spaces
+        // Удалить символы валюты и пробелы
         $price = preg_replace('/[^\d.-]/', '', $price);
 
         if (!is_numeric($price)) {
             return [
                 'valid' => false,
-                'error' => __('Price must be a valid number', 'woo-price-editor'),
+                'error' => __('Цена должна быть числом', 'woo-price-editor'),
             ];
         }
 
@@ -245,14 +245,14 @@ class WPE_Security {
         if ($num_price < 0) {
             return [
                 'valid' => false,
-                'error' => __('Price cannot be negative', 'woo-price-editor'),
+                'error' => __('Цена не может быть отрицательной', 'woo-price-editor'),
             ];
         }
 
         if ($num_price > 999999999.99) {
             return [
                 'valid' => false,
-                'error' => __('Price is too large', 'woo-price-editor'),
+                'error' => __('Слишком большое значение цены', 'woo-price-editor'),
             ];
         }
 
@@ -271,14 +271,14 @@ class WPE_Security {
         if (empty($title)) {
             return [
                 'valid' => false,
-                'error' => __('Title cannot be empty', 'woo-price-editor'),
+                'error' => __('Название не может быть пустым', 'woo-price-editor'),
             ];
         }
 
         if (mb_strlen($title) > 200) {
             return [
                 'valid' => false,
-                'error' => __('Title is too long (max 200 characters)', 'woo-price-editor'),
+                'error' => __('Название слишком длинное (макс. 200 символов)', 'woo-price-editor'),
             ];
         }
 
@@ -295,37 +295,37 @@ class WPE_Security {
             'title' => [
                 'getter'   => 'get_name',
                 'setter'   => 'set_name',
-                'label'    => __('Title', 'woo-price-editor'),
+                'label'    => __('Название', 'woo-price-editor'),
                 'sanitize' => 'sanitize_text_field',
             ],
             'regular_price' => [
                 'getter'   => 'get_regular_price',
                 'setter'   => 'set_regular_price',
-                'label'    => __('Regular Price', 'woo-price-editor'),
+                'label'    => __('Обычная цена', 'woo-price-editor'),
                 'sanitize' => 'wc_format_decimal',
             ],
             'sale_price' => [
                 'getter'   => 'get_sale_price',
                 'setter'   => 'set_sale_price',
-                'label'    => __('Sale Price', 'woo-price-editor'),
+                'label'    => __('Цена со скидкой', 'woo-price-editor'),
                 'sanitize' => [__CLASS__, 'sanitize_sale_price'],
             ],
             'tax_status' => [
                 'getter'   => 'get_tax_status',
                 'setter'   => 'set_tax_status',
-                'label'    => __('Tax Status', 'woo-price-editor'),
+                'label'    => __('Налоговый статус', 'woo-price-editor'),
                 'sanitize' => 'sanitize_text_field',
             ],
             'tax_class' => [
                 'getter'   => 'get_tax_class',
                 'setter'   => 'set_tax_class',
-                'label'    => __('Tax Class', 'woo-price-editor'),
+                'label'    => __('Налоговый класс', 'woo-price-editor'),
                 'sanitize' => 'sanitize_text_field',
             ],
             'stock_status' => [
                 'getter'   => 'get_stock_status',
                 'setter'   => 'set_stock_status',
-                'label'    => __('Stock Status', 'woo-price-editor'),
+                'label'    => __('Статус наличия', 'woo-price-editor'),
                 'sanitize' => 'sanitize_text_field',
             ],
         ];

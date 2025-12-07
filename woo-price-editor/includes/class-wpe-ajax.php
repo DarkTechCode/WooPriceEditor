@@ -1,28 +1,28 @@
 <?php
 /**
- * AJAX handler class
+ * Класс обработки AJAX
  *
- * Provides AJAX endpoints for the price editor with proper security,
- * validation, and error handling.
+ * Предоставляет AJAX-точки для редактора цен с надлежащей безопасностью,
+ * валидацией и обработкой ошибок.
  *
  * @package WooPriceEditor
  * @since 1.0.0
  */
 
-// Prevent direct access
+// Предотвратить прямой доступ
 if (!defined('ABSPATH')) {
     exit;
 }
 
 /**
- * Class WPE_AJAX
+ * Класс WPE_AJAX
  *
- * Handles AJAX requests for product operations
+ * Обрабатывает AJAX-запросы для операций с товарами
  */
 class WPE_AJAX {
 
     /**
-     * Product handler instance
+     * Экземпляр обработчика товаров
      *
      * @var WPE_Product
      */
@@ -58,26 +58,26 @@ class WPE_AJAX {
         if (!is_user_logged_in()) {
             return new WP_Error(
                 'not_authenticated',
-                __('You must be logged in to access this endpoint.', 'woo-price-editor'),
+                __('Необходимо войти в систему, чтобы получить доступ к этому маршруту.', 'woo-price-editor'),
                 ['status' => 401]
             );
         }
 
-        // Check nonce (used for both REST API and AJAX calls)
+        // Проверка nonce (используется как для REST API, так и для AJAX-вызовов)
         $nonce = isset($_REQUEST['nonce']) ? sanitize_text_field(wp_unslash($_REQUEST['nonce'])) : '';
         if (!$nonce || !wp_verify_nonce($nonce, 'wp_rest')) {
             return new WP_Error(
                 'invalid_nonce',
-                __('Security check failed.', 'woo-price-editor'),
+                __('Не пройдена проверка безопасности.', 'woo-price-editor'),
                 ['status' => 403]
             );
         }
 
-        // Check capability
+        // Проверка прав доступа
         if (!current_user_can('manage_woocommerce')) {
             return new WP_Error(
                 'forbidden',
-                __('You do not have permission to manage products.', 'woo-price-editor'),
+                __('У вас нет прав для управления товарами.', 'woo-price-editor'),
                 ['status' => 403]
             );
         }
@@ -226,25 +226,25 @@ class WPE_AJAX {
             // Get and validate product ID
             $product_id = isset($_REQUEST['product_id']) ? absint(wp_unslash($_REQUEST['product_id'])) : 0;
             if (!$product_id) {
-                throw new InvalidArgumentException(__('Product ID is required.', 'woo-price-editor'));
+                throw new InvalidArgumentException(__('Необходимо указать ID товара.', 'woo-price-editor'));
             }
 
-            // Check permission for this specific product
+            // Проверка прав доступа для конкретного товара
             if (!WPE_Security::can_edit_product($product_id)) {
                 $this->send_response(
                     new WP_Error(
                         'forbidden',
-                        __('You do not have permission to edit this product.', 'woo-price-editor'),
+                        __('У вас нет прав для редактирования этого товара.', 'woo-price-editor'),
                         ['status' => 403]
                     )
                 );
                 return;
             }
 
-            // Get and validate field
+            // Получить и проверить поле
             $field = isset($_REQUEST['field']) ? sanitize_text_field(wp_unslash($_REQUEST['field'])) : '';
             if (!$field) {
-                throw new InvalidArgumentException(__('Field is required.', 'woo-price-editor'));
+                throw new InvalidArgumentException(__('Необходимо указать поле.', 'woo-price-editor'));
             }
 
             // Get value

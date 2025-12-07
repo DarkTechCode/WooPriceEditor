@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Woo Price Editor
+ * Plugin Name: Редактор цен WooCommerce
  * Plugin URI: https://darktech.ru
- * Description: Full-screen WooCommerce price editor shell with capability gated admin entry point.
+ * Description: Полноэкранный редактор цен WooCommerce с контролем доступа через административную панель.
  * Version: 0.1.0
  * Requires at least: 6.0
  * Requires PHP: 7.4

@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings page class for Woo Price Editor.
+ * Класс страницы настроек редактора цен Woo.
  *
  * @package WooPriceEditor
  */
@@ -35,15 +35,15 @@ class WPE_Settings {
     }
 
     /**
-     * Register the settings submenu page.
+     * Зарегистрировать страницу подменю настроек.
      *
      * @return void
      */
     public function register_settings_menu() {
         $this->page_hook = add_submenu_page(
             'woo-price-editor',
-            __('Woo Price Editor Settings', 'woo-price-editor'),
-            __('Settings', 'woo-price-editor'),
+            __('Настройки редактора цен Woo', 'woo-price-editor'),
+            __('Настройки', 'woo-price-editor'),
             'manage_woocommerce',
             'wpe-settings',
             [$this, 'render_settings_page']
@@ -62,49 +62,49 @@ class WPE_Settings {
             [$this, 'sanitize_settings']
         );
 
-        // Start Category Section
+        // Секция начальной категории
         add_settings_section(
             'wpe_start_category_section',
-            __('Start Category', 'woo-price-editor'),
+            __('Начальная категория', 'woo-price-editor'),
             [$this, 'render_start_category_section'],
             'wpe_settings'
         );
 
         add_settings_field(
             'wpe_start_category',
-            __('Default Start Category', 'woo-price-editor'),
+            __('Начальная категория по умолчанию', 'woo-price-editor'),
             [$this, 'render_start_category_field'],
             'wpe_settings',
             'wpe_start_category_section'
         );
 
-        // Default Columns Section
+        // Секция колонок по умолчанию
         add_settings_section(
             'wpe_default_columns_section',
-            __('Default Columns', 'woo-price-editor'),
+            __('Колонки по умолчанию', 'woo-price-editor'),
             [$this, 'render_default_columns_section'],
             'wpe_settings'
         );
 
         add_settings_field(
             'wpe_default_columns',
-            __('Visible Columns', 'woo-price-editor'),
+            __('Видимые колонки', 'woo-price-editor'),
             [$this, 'render_default_columns_field'],
             'wpe_settings',
             'wpe_default_columns_section'
         );
 
-        // Instructions Section
+        // Секция инструкций
         add_settings_section(
             'wpe_instructions_section',
-            __('Instructions', 'woo-price-editor'),
+            __('Инструкции', 'woo-price-editor'),
             [$this, 'render_instructions_section'],
             'wpe_settings'
         );
 
         add_settings_field(
             'wpe_instructions',
-            __('Editor Instructions', 'woo-price-editor'),
+            __('Инструкции для редактора', 'woo-price-editor'),
             [$this, 'render_instructions_field'],
             'wpe_settings',
             'wpe_instructions_section'
@@ -137,11 +137,11 @@ class WPE_Settings {
      */
     public function render_settings_page() {
         if (!current_user_can('manage_woocommerce')) {
-            wp_die(__('You do not have permission to access this page.', 'woo-price-editor'));
+            wp_die(__('У вас нет прав для доступа к этой странице.', 'woo-price-editor'));
         }
         ?>
         <div class="wrap">
-            <h1><?php esc_html_e('Woo Price Editor Settings', 'woo-price-editor'); ?></h1>
+            <h1><?php esc_html_e('Настройки редактора цен Woo', 'woo-price-editor'); ?></h1>
             
             <form action="options.php" method="post">
                 <?php
@@ -155,16 +155,16 @@ class WPE_Settings {
     }
 
     /**
-     * Render start category section description.
+     * Вывести описание секции начальной категории.
      *
      * @return void
      */
     public function render_start_category_section() {
-        echo '<p>' . esc_html__('Choose the default category that will be selected when the editor loads. Select "All Products" to show all products by default.', 'woo-price-editor') . '</p>';
+        echo '<p>' . esc_html__('Выберите категорию по умолчанию, которая будет выбрана при загрузке редактора. Выберите "Все товары" для отображения всех товаров по умолчанию.', 'woo-price-editor') . '</p>';
     }
 
     /**
-     * Render start category field.
+     * Вывести поле начальной категории.
      *
      * @return void
      */
@@ -180,7 +180,7 @@ class WPE_Settings {
         ]);
 
         echo '<select id="wpe_start_category" name="wpe_editor_settings[start_category]">';
-        echo '<option value="all"' . selected($current_category, 'all', false) . '>' . esc_html__('All Products', 'woo-price-editor') . '</option>';
+        echo '<option value="all"' . selected($current_category, 'all', false) . '>' . esc_html__('Все товары', 'woo-price-editor') . '</option>';
         
         if (!is_wp_error($categories) && !empty($categories)) {
             foreach ($categories as $category) {
@@ -194,20 +194,20 @@ class WPE_Settings {
         }
         
         echo '</select>';
-        echo '<p class="description">' . esc_html__('The category that will be automatically selected when the editor opens.', 'woo-price-editor') . '</p>';
+        echo '<p class="description">' . esc_html__('Категория, которая будет автоматически выбрана при открытии редактора.', 'woo-price-editor') . '</p>';
     }
 
     /**
-     * Render default columns section description.
+     * Вывести описание секции колонок по умолчанию.
      *
      * @return void
      */
     public function render_default_columns_section() {
-        echo '<p>' . esc_html__('Choose which columns should be visible by default in the editor table. Users can toggle column visibility using the column controls.', 'woo-price-editor') . '</p>';
+        echo '<p>' . esc_html__('Выберите, какие колонки должны быть видимы по умолчанию в таблице редактора. Пользователи могут переключать видимость колонок с помощью элементов управления.', 'woo-price-editor') . '</p>';
     }
 
     /**
-     * Render default columns field.
+     * Вывести поле выбора колонок.
      *
      * @return void
      */
@@ -229,20 +229,20 @@ class WPE_Settings {
             );
         }
         echo '</div>';
-        echo '<p class="description">' . esc_html__('Select the columns that should be visible by default. The "Product" and "Actions" columns are always visible.', 'woo-price-editor') . '</p>';
+        echo '<p class="description">' . esc_html__('Выберите колонки, которые должны быть видимы по умолчанию. Колонки "Товар" и "Действия" отображаются всегда.', 'woo-price-editor') . '</p>';
     }
 
     /**
-     * Render instructions section description.
+     * Вывести описание секции инструкций.
      *
      * @return void
      */
     public function render_instructions_section() {
-        echo '<p>' . esc_html__('Provide instructions that will help users understand how to use the price editor effectively.', 'woo-price-editor') . '</p>';
+        echo '<p>' . esc_html__('Добавьте инструкции, которые помогут пользователям эффективно работать с редактором цен.', 'woo-price-editor') . '</p>';
     }
 
     /**
-     * Render instructions field.
+     * Вывести поле инструкций.
      *
      * @return void
      */
@@ -251,7 +251,7 @@ class WPE_Settings {
         $instructions = $settings['instructions'] ?? $this->get_default_instructions();
         
         echo '<textarea id="wpe_instructions" name="wpe_editor_settings[instructions]" rows="8" class="large-text">' . esc_textarea($instructions) . '</textarea>';
-        echo '<p class="description">' . esc_html__('These instructions will be displayed at the top of the editor page to guide users.', 'woo-price-editor') . '</p>';
+        echo '<p class="description">' . esc_html__('Эти инструкции отображаются в верхней части страницы редактора и помогают пользователям.', 'woo-price-editor') . '</p>';
     }
 
     /**
@@ -277,30 +277,30 @@ class WPE_Settings {
                     add_settings_error(
                         'wpe_editor_settings',
                         'invalid_category',
-                        __('Invalid category selected. Using default value.', 'woo-price-editor')
+                        __('Выбрана недопустимая категория. Используется значение по умолчанию.', 'woo-price-editor')
                     );
                     $sanitized['start_category'] = $defaults['start_category'];
                 }
             }
         }
 
-        // Sanitize default columns
+        // Санитизация колонок по умолчанию
         if (isset($input['default_columns']) && is_array($input['default_columns'])) {
             $valid_columns = array_keys($this->available_columns);
             $sanitized['default_columns'] = array_intersect($input['default_columns'], $valid_columns);
             
-            // Ensure at least some columns are selected
+            // Убедиться, что выбрана хотя бы одна колонка
             if (empty($sanitized['default_columns'])) {
                 add_settings_error(
                     'wpe_editor_settings',
                     'no_columns',
-                    __('At least one column must be selected. Using default columns.', 'woo-price-editor')
+                    __('Должна быть выбрана хотя бы одна колонка. Используются колонки по умолчанию.', 'woo-price-editor')
                 );
                 $sanitized['default_columns'] = $defaults['default_columns'];
             }
         }
 
-        // Sanitize instructions
+        // Санитизация инструкций
         if (isset($input['instructions'])) {
             $sanitized['instructions'] = wp_kses_post($input['instructions']);
             if (empty(trim($sanitized['instructions']))) {
@@ -318,14 +318,14 @@ class WPE_Settings {
      */
     private function get_available_columns() {
         return [
-            'sku' => __('SKU', 'woo-price-editor'),
-            'status' => __('Status', 'woo-price-editor'),
-            'regular_price' => __('Regular Price', 'woo-price-editor'),
-            'sale_price' => __('Sale Price', 'woo-price-editor'),
-            'tax_status' => __('Tax Status', 'woo-price-editor'),
-            'tax_class' => __('Tax Class', 'woo-price-editor'),
-            'stock_status' => __('Stock Status', 'woo-price-editor'),
-            'categories' => __('Categories', 'woo-price-editor'),
+            'sku' => __('Артикул', 'woo-price-editor'),
+            'status' => __('Статус', 'woo-price-editor'),
+            'regular_price' => __('Обычная цена', 'woo-price-editor'),
+            'sale_price' => __('Цена со скидкой', 'woo-price-editor'),
+            'tax_status' => __('Налоговый статус', 'woo-price-editor'),
+            'tax_class' => __('Налоговый класс', 'woo-price-editor'),
+            'stock_status' => __('Статус наличия', 'woo-price-editor'),
+            'categories' => __('Категории', 'woo-price-editor'),
         ];
     }
 
@@ -355,19 +355,19 @@ class WPE_Settings {
      */
     private function get_default_instructions() {
         return __(
-            "Welcome to the Woo Price Editor! This tool allows you to quickly edit product information in bulk.\n\n" .
-            "How to use:\n" .
-            "• Click on any editable field to modify it directly\n" .
-            "• Price fields: Enter new prices and they'll be saved automatically when you click away\n" .
-            "• Title field: Click to edit, then press Enter to save or Escape to cancel\n" .
-            "• Dropdown fields: Select new values from the dropdown menu\n" .
-            "• Use the filters above the table to narrow down products\n" .
-            "• Toggle column visibility using the column checkboxes\n" .
-            "• All changes are saved automatically to your WooCommerce store\n\n" .
-            "Tips:\n" .
-            "• Use the search bar to find products by title, SKU, or ID\n" .
-            "• Filter by category, status, tax status, or stock status\n" .
-            "• Click the edit or view icons to open products in the standard WooCommerce interface",
+            "Добро пожаловать в редактор цен Woo! Этот инструмент позволяет быстро редактировать информацию о товарах в массовом режиме.\n\n" .
+            "Как использовать:\n" .
+            "• Кликните на любое редактируемое поле для его изменения\n" .
+            "• Поля цен: Введите новые цены, они будут сохранены автоматически при клике вне поля\n" .
+            "• Поле названия: Кликните для редактирования, затем нажмите Enter для сохранения или Escape для отмены\n" .
+            "• Выпадающие списки: Выберите новые значения из выпадающего меню\n" .
+            "• Используйте фильтры над таблицей для фильтрации товаров\n" .
+            "• Переключайте видимость колонок с помощью чекбоксов\n" .
+            "• Все изменения сохраняются автоматически в вашем магазине WooCommerce\n\n" .
+            "Советы:\n" .
+            "• Используйте строку поиска для поиска товаров по названию, артикулу или ID\n" .
+            "• Фильтруйте по категории, статусу, налоговому статусу или статусу наличия\n" .
+            "• Кликните на иконки редактирования или просмотра для открытия товара в стандартном интерфейсе WooCommerce",
             'woo-price-editor'
         );
     }
