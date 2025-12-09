@@ -71,6 +71,7 @@ $context = wp_parse_args(
             animation: spin 1s linear infinite;
         }
     </style>
+    <?php do_action('admin_enqueue_scripts', 'toplevel_page_woo-price-editor'); ?>
     <?php wp_head(); ?>
 </head>
 <body class="wpe-shell" data-wpe-nonce="<?php echo esc_attr($context['nonce']); ?>">
