@@ -1,55 +1,55 @@
-# Settings Documentation
+# Документация по настройкам
 
-## Overview
+## Обзор
 
-The Woo Price Editor provides configurable settings to customize the editor's default behavior and appearance. Settings are accessible from **WordPress Admin** → **Price Editor** → **Settings**.
+Редактор цен WooCommerce предоставляет настраиваемые параметры для управления поведением и внешним видом редактора по умолчанию. Параметры доступны из **Администратор WordPress** → **Редактор цен** → **Настройки**.
 
-## Settings Location
+## Расположение настроек
 
-- **Menu Path**: Price Editor → Settings
-- **Capability Required**: `manage_woocommerce`
-- **Option Name**: `wpe_editor_settings` (stored in wp_options table)
-- **Implementation**: WordPress Settings API
+- **Путь меню**: Редактор цен → Настройки
+- **Требуемое право**: `manage_woocommerce`
+- **Имя опции**: `wpe_editor_settings` (хранится в таблице wp_options)
+- **Реализация**: WordPress Settings API
 
-## Available Settings
+## Доступные настройки
 
-### 1. Start Category
+### 1. Стартовая категория
 
-**Description**: Controls which product category is selected by default when the editor loads.
+**Описание**: управляет, какая категория товаров выбирается по умолчанию при загрузке редактора.
 
-**Field Type**: Dropdown select
+**Тип поля**: выпадающий список
 
-**Options**:
-- **All Products** (value: `all`) - Shows all products regardless of category
-- Individual product categories from your WooCommerce store
+**Варианты**:
+- **Все товары** (значение: `all`) — показывает все товары независимо от категории
+- Отдельные категории товаров вашего магазина WooCommerce
 
-**Default Value**: `all`
+**Значение по умолчанию**: `all`
 
-**Use Case**: If your store has multiple categories and you primarily edit products in a specific category, you can set that category as the default to save time.
+**Случай использования**: если в вашем магазине несколько категорий, а вы в основном редактируете товары в определённой категории, вы можете установить эту категорию в качестве стандартной для экономии времени.
 
-**Example**:
+**Пример**:
 ```php
 $settings = get_option('wpe_editor_settings');
-$start_category = $settings['start_category']; // 'all' or category slug
+$start_category = $settings['start_category']; // 'all' или slug категории
 ```
 
-### 2. Default Columns
+### 2. Колонки по умолчанию
 
-**Description**: Determines which columns are visible by default in the editor table.
+**Описание**: определяет, какие колонки видны по умолчанию в таблице редактора.
 
-**Field Type**: Multi-checkbox
+**Тип поля**: несколько флажков
 
-**Available Columns**:
-- **SKU** - Product SKU/part number
-- **Status** - Product status (Published, Draft, Private, Pending)
-- **Regular Price** - Base product price
-- **Sale Price** - Discounted price (if applicable)
-- **Tax Status** - Tax application setting (Taxable, Shipping only, None)
-- **Tax Class** - Tax classification
-- **Stock Status** - Inventory status (In Stock, Out of Stock, On Backorder)
-- **Categories** - Product categories
+**Доступные колонки**:
+- **Артикул** — SKU/номер товара
+- **Статус** — статус товара (Опубликовано, Черновик, Приватное, В ожидании)
+- **Обычная цена** — базовая цена товара
+- **Цена со скидкой** — скидочная цена (если применимо)
+- **Налоговый статус** — установка применения налога (Подлежит налогообложению, Только доставка, Нет налога)
+- **Налоговый класс** — налоговая классификация
+- **Статус наличия** — статус инвентаря (В наличии, Нет в наличии, На заказ)
+- **Категории** — категории товаров
 
-**Default Values**:
+**Значения по умолчанию**:
 ```php
 [
     'sku',
@@ -60,130 +60,130 @@ $start_category = $settings['start_category']; // 'all' or category slug
 ]
 ```
 
-**Note**: The **Product** (title) and **Actions** columns are always visible and cannot be disabled.
+**Примечание**: колонки **Товар** (название) и **Действия** всегда видны и не могут быть отключены.
 
-**Use Case**: Customize the default view based on your workflow. For example, if you rarely modify tax settings, you can hide those columns by default.
+**Случай использования**: настройте представление по умолчанию в соответствии с вашим рабочим процессом. Например, если вы редко изменяете налоговые параметры, вы можете скрыть эти колонки по умолчанию.
 
-**Programmatic Access**:
+**Программный доступ**:
 ```php
 $settings = get_option('wpe_editor_settings');
-$default_columns = $settings['default_columns']; // Array of column keys
+$default_columns = $settings['default_columns']; // массив ключей колонок
 ```
 
-### 3. Instructions
+### 3. Инструкции
 
-**Description**: Customizable help text displayed at the top of the editor interface to guide users.
+**Описание**: настраиваемый текст справки, отображаемый в верхней части интерфейса редактора для руководства пользователей.
 
-**Field Type**: Multi-line textarea
+**Тип поля**: многострочная область текста
 
-**Default Value**: 
+**Значение по умолчанию**: 
 ```
-Welcome to the Woo Price Editor! This tool allows you to quickly edit product information in bulk.
+Добро пожаловать в Редактор цен WooCommerce! Этот инструмент позволяет вам быстро отредактировать информацию о товарах в большом количестве.
 
-How to use:
-• Click on any editable field to modify it directly
-• Price fields: Enter new prices and they'll be saved automatically when you click away
-• Title field: Click to edit, then press Enter to save or Escape to cancel
-• Dropdown fields: Select new values from the dropdown menu
-• Use the filters above the table to narrow down products
-• Toggle column visibility using the column checkboxes
-• All changes are saved automatically to your WooCommerce store
+Как использовать:
+• Нажмите на любое редактируемое поле для прямого изменения
+• Поля цены: введите новые цены, они будут сохранены автоматически при клике в стороне
+• Поле названия: нажмите для редактирования, затем нажмите Enter для сохранения или Escape для отмены
+• Поля выпадающего списка: выберите новые значения из меню
+• Используйте фильтры выше таблицы для сужения списка товаров
+• Переключайте видимость колонок, используя флажки колонок
+• Все изменения сохраняются автоматически в вашем магазине WooCommerce
 
-Tips:
-• Use the search bar to find products by title, SKU, or ID
-• Filter by category, status, tax status, or stock status
-• Click the edit or view icons to open products in the standard WooCommerce interface
+Советы:
+• Используйте панель поиска для поиска товаров по названию, артикулу или ID
+• Фильтруйте по категории, статусу, налоговому статусу или статусу наличия
+• Нажмите на значки редактирования или просмотра для открытия товаров в стандартном интерфейсе WooCommerce
 ```
 
-**Use Case**: Customize instructions for your team's specific workflow or add store-specific guidelines.
+**Случай использования**: настройте инструкции для конкретного рабочего процесса вашей команды или добавьте рекомендации, специфичные для вашего магазина.
 
-**Formatting**: Basic HTML is allowed via `wp_kses_post()` for simple formatting (paragraphs, line breaks, etc.)
+**Форматирование**: простой HTML разрешён через `wp_kses_post()` для базового форматирования (абзацы, разрывы строк и т.д.)
 
-## Configuration Methods
+## Методы конфигурации
 
-### Via WordPress Admin Interface
+### Через интерфейс Администратора WordPress
 
-1. Navigate to **Price Editor** → **Settings**
-2. Modify the desired settings
-3. Click **Save Changes**
-4. Settings are validated and sanitized automatically
+1. Перейдите в **Редактор цен** → **Настройки**
+2. Измените нужные параметры
+3. Нажмите **Сохранить изменения**
+4. Параметры автоматически проверяются и санитизируются
 
-### Programmatically via Code
+### Программно через код
 
-#### Reading Settings
+#### Чтение параметров
 
 ```php
-// Get all settings
+// Получить все параметры
 $settings = get_option('wpe_editor_settings', WPE_Plugin::get_default_options());
 
-// Access individual settings
+// Доступ к отдельным параметрам
 $start_category = $settings['start_category'] ?? 'all';
 $default_columns = $settings['default_columns'] ?? [];
 $instructions = $settings['instructions'] ?? '';
 ```
 
-#### Updating Settings
+#### Обновление параметров
 
 ```php
-// Get current settings
+// Получить текущие параметры
 $settings = get_option('wpe_editor_settings', []);
 
-// Modify specific setting
+// Изменить конкретный параметр
 $settings['start_category'] = 'electronics';
 
-// Update in database
+// Обновить в базе данных
 update_option('wpe_editor_settings', $settings);
 ```
 
-#### Resetting to Defaults
+#### Сброс к значениям по умолчанию
 
 ```php
 $defaults = WPE_Plugin::get_default_options();
 update_option('wpe_editor_settings', $defaults);
 ```
 
-## Settings Validation
+## Валидация параметров
 
-The plugin automatically validates and sanitizes all settings:
+Плагин автоматически проверяет и санитизирует все параметры:
 
-### Start Category Validation
+### Валидация стартовой категории
 
-- Verifies the category exists using `get_term_by()`
-- Falls back to `'all'` if invalid category is provided
-- Displays admin notice if validation fails
+- Проверяет наличие категории с помощью `get_term_by()`
+- Возвращается к `'all'`, если передана неверная категория
+- Отображает уведомление администратора при ошибке валидации
 
 ```php
 $category = get_term_by('slug', $input['start_category'], 'product_cat');
 if ($category && !is_wp_error($category)) {
     $sanitized['start_category'] = $category->slug;
 } else {
-    // Fallback to default
+    // Возврат к значению по умолчанию
     $sanitized['start_category'] = 'all';
 }
 ```
 
-### Default Columns Validation
+### Валидация колонок по умолчанию
 
-- Checks columns against list of available columns
-- Removes invalid column keys
-- Ensures at least one column is selected
-- Displays admin notice if no columns selected
+- Проверяет колонки в списке доступных колонок
+- Удаляет ключи неверных колонок
+- Убеждает, что выбрана хотя бы одна колонка
+- Отображает уведомление администратора, если не выбраны колонки
 
 ```php
 $valid_columns = ['sku', 'status', 'regular_price', 'sale_price', 'tax_status', 'tax_class', 'stock_status', 'categories'];
 $sanitized['default_columns'] = array_intersect($input['default_columns'], $valid_columns);
 
 if (empty($sanitized['default_columns'])) {
-    // Fallback to defaults
+    // Возврат к значениям по умолчанию
     $sanitized['default_columns'] = $defaults['default_columns'];
 }
 ```
 
-### Instructions Validation
+### Валидация инструкций
 
-- Sanitizes HTML using `wp_kses_post()`
-- Falls back to default instructions if empty
-- Removes potentially harmful scripts and tags
+- Санитизирует HTML с помощью `wp_kses_post()`
+- Возвращается к инструкциям по умолчанию, если пусто
+- Удаляет потенциально опасные скрипты и теги
 
 ```php
 $sanitized['instructions'] = wp_kses_post($input['instructions']);
@@ -192,9 +192,9 @@ if (empty(trim($sanitized['instructions']))) {
 }
 ```
 
-## Plugin Activation
+## Активация плагина
 
-During plugin activation, default settings are automatically created if they don't exist:
+При активации плагина параметры по умолчанию создаются автоматически, если они не существуют:
 
 ```php
 public static function activate() {
@@ -204,72 +204,72 @@ public static function activate() {
     if (false === $options) {
         add_option('wpe_editor_settings', $defaults);
     } else {
-        // Merge with defaults for upgrades
+        // Объединение с параметрами по умолчанию для обновлений
         $updated_options = wp_parse_args((array) $options, $defaults);
         update_option('wpe_editor_settings', $updated_options);
     }
 }
 ```
 
-This ensures:
-- Fresh installations get default settings
-- Existing installations receive new settings when plugin is updated
-- User customizations are preserved during updates
+Это гарантирует:
+- Новые установки получают параметры по умолчанию
+- Существующие установки получают новые параметры при обновлении плагина
+- Пользовательские настройки сохраняются при обновлениях
 
-## Settings in JavaScript
+## Параметры в JavaScript
 
-Settings are localized to JavaScript for use in the editor interface:
+Параметры локализированы в JavaScript для использования в интерфейсе редактора:
 
 ```javascript
-// Settings available in wpeData object
-const startCategory = wpeData.startCategory;  // 'all' or category slug
-const defaultColumns = wpeData.defaultColumns; // Array of column keys
+// Параметры доступны в объекте wpeData
+const startCategory = wpeData.startCategory;  // 'all' или slug категории
+const defaultColumns = wpeData.defaultColumns; // массив ключей колонок
 
-// Example: Initialize filters with start category
+// Пример: инициализация фильтров со стартовой категорией
 if (startCategory !== 'all') {
     $('#filter-category').val(startCategory).trigger('change');
 }
 
-// Example: Show/hide columns based on defaults
+// Пример: показать/скрыть колонки в зависимости от значений по умолчанию
 defaultColumns.forEach(function(column) {
     $('input[value="' + column + '"]').prop('checked', true);
 });
 ```
 
-**Location**: `includes/class-wpe-plugin.php` → `enqueue_admin_assets()`
+**Расположение**: `includes/class-wpe-plugin.php` → `enqueue_admin_assets()`
 
-## Database Storage
+## Хранилище базы данных
 
-Settings are stored as a serialized array in the WordPress options table:
+Параметры хранятся как сериализированный массив в таблице опций WordPress:
 
-**Table**: `wp_options`
-**Option Name**: `wpe_editor_settings`
-**Autoload**: yes (loaded on every page for performance)
+**Таблица**: `wp_options`
+**Имя опции**: `wpe_editor_settings`
+**Автозагрузка**: да (загружается на каждой странице для производительности)
 
-**Example Database Row**:
+**Пример строки базы данных**:
 ```
 option_name: wpe_editor_settings
-option_value: a:3:{s:14:"start_category";s:3:"all";s:15:"default_columns";a:5:{i:0;s:3:"sku";i:1;s:13:"regular_price";i:2;s:10:"sale_price";i:3;s:12:"stock_status";i:4;s:10:"tax_status";}s:12:"instructions";s:500:"Welcome to the Woo Price Editor!...";}
+option_value: a:3:{s:14:"start_category";s:3:"all";s:15:"default_columns";a:5:{i:0;s:3:"sku";i:1;s:13:"regular_price";i:2;s:10:"sale_price";i:3;s:12:"stock_status";i:4;s:10:"tax_status";}s:12:"instructions";s:500:"Добро пожаловать в Редактор цен WooCommerce!...";}
 autoload: yes
 ```
 
-## Migration and Upgrades
+## Миграция и обновления
 
-The plugin handles settings migration during activation:
+Плагин обрабатывает миграцию параметров при активации:
 
-1. Checks if settings exist
-2. If not, creates with defaults
-3. If exist, merges with defaults to add new settings
-4. Performs any necessary data transformations
+1. Проверяет наличие параметров
+2. Если нет, создаёт со значениями по умолчанию
+3. Если есть, объединяет с параметрами по умолчанию для добавления новых
+4. Выполняет необходимые преобразования данных
 
-**Example Migration** (from plugin update):
+**Пример миграции** (при обновлении плагина):
 ```php
-// Handle migration for existing installations
+// Обработка миграции для существующих установок
 if (!isset($options['instructions'])) {
     $updated_options['instructions'] = $defaults['instructions'];
 }
 
-// Remove deprecated values
+// Удаление устаревших значений
 if (isset($updated_options['default_columns']) && is_array($updated_options['default_columns'])) {
     $updated_options['default_columns'] = array_diff($updated_options['default_columns'], ['product']);
 }
@@ -277,43 +277,43 @@ if (isset($updated_options['default_columns']) && is_array($updated_options['def
 update_option('wpe_editor_settings', $updated_options);
 ```
 
-## Hooks and Filters
+## Hooks и Filters
 
-### Available Filters
+### Доступные фильтры
 
-The plugin provides filters for extending settings functionality:
+Плагин предоставляет фильтры для расширения функциональности параметров:
 
-#### Modify Editor Context (including settings)
+#### Изменение контекста редактора (включая параметры)
 
 ```php
 add_filter('wpe_editor_context', function($context) {
-    // Modify settings before passing to template
+    // Изменить параметры перед передачей в шаблон
     $context['settings']['custom_option'] = 'custom_value';
     return $context;
 });
 ```
 
-## Troubleshooting
+## Решение проблем
 
-### Settings Not Saving
+### Параметры не сохраняются
 
-**Cause**: User lacks permission or nonce verification failed
-**Solution**: Ensure user has `manage_woocommerce` capability and form nonce is valid
+**Причина**: пользователь не имеет прав или не пройдена проверка nonce
+**Решение**: убедитесь, что пользователь имеет право `manage_woocommerce` и форма nonce действительна
 
-### Settings Reset to Defaults
+### Параметры сбрасываются на значения по умолчанию
 
-**Cause**: Validation failure or corrupted data
-**Solution**: Check admin notices for validation errors; may need to manually fix database entry
+**Причина**: ошибка валидации или повреждённые данные
+**Решение**: проверьте уведомления администратора на предмет ошибок валидации; может потребоваться ручное исправление записи базы данных
 
-### Custom Category Not Showing
+### Пользовательская категория не отображается
 
-**Cause**: Category was deleted or slug changed
-**Solution**: Plugin automatically falls back to "All Products"; update setting to valid category
+**Причина**: категория была удалена или изменён slug
+**Решение**: плагин автоматически возвращается к «Все товары»; обновите параметр на действительную категорию
 
-## Best Practices
+## Лучшие практики
 
-1. **Test settings changes** on a staging site before applying to production
-2. **Document custom instructions** that are specific to your workflow
-3. **Review default columns** based on your team's most common tasks
-4. **Keep backups** of your settings if you've heavily customized instructions
-5. **Use start category** to optimize initial load time for large catalogs
+1. **Тестируйте изменения параметров** на промежуточном сайте перед применением к продакшену
+2. **Документируйте пользовательские инструкции**, которые специфичны для вашего рабочего процесса
+3. **Просмотрите колонки по умолчанию** на основе наиболее частых задач вашей команды
+4. **Храните резервные копии** ваших параметров, если вы сильно настроили инструкции
+5. **Используйте стартовую категорию** для оптимизации времени начальной загрузки для больших каталогов

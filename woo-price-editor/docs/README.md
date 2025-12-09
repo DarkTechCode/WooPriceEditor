@@ -1,133 +1,133 @@
-# Woo Price Editor Documentation
+# Документация Редактора цен WooCommerce
 
-Welcome to the Woo Price Editor documentation. This directory contains comprehensive guides covering all aspects of the plugin.
+Добро пожаловать в документацию Редактора цен WooCommerce. Этот каталог содержит комплексные руководства, охватывающие все аспекты плагина.
 
-## Documentation Index
+## Указатель документации
 
-### Getting Started
+### Начало работы
 
-- **[Installation Guide](installation.md)** - Step-by-step installation instructions, requirements, post-installation setup, and troubleshooting
+- **[Руководство по установке](installation.md)** — пошаговые инструкции по установке, требования, настройка после установки и решение проблем
 
-### Configuration
+### Конфигурация
 
-- **[Settings Documentation](settings.md)** - Complete guide to plugin settings including start category, default columns, and instructions customization
+- **[Документация по настройкам](settings.md)** — полное руководство по параметрам плагина, включая стартовую категорию, колонки по умолчанию и настройку инструкций
 
-- **[Capability Requirements](capabilities.md)** - Detailed explanation of user permissions, capability checks, and access control
+- **[Справочник прав доступа](capabilities.md)** — детальное объяснение прав пользователей, проверки прав и контроля доступа
 
-### Development
+### Разработка
 
-- **[AJAX Endpoints](ajax-endpoints.md)** - Complete API reference for all AJAX endpoints with request/response examples, authentication, and security
+- **[Конечные точки AJAX](ajax-endpoints.md)** — полный справочник API для всех конечных точек AJAX с примерами запросов/ответов, аутентификацией и безопасностью
 
-- **[Technical Notes](technical-notes.md)** - Implementation details including WordPress-bundled jQuery, full-screen rendering, security architecture, and extension guides
+- **[Технические заметки](technical-notes.md)** — детали реализации, включая встроенный jQuery WordPress, полноэкранный рендеринг, архитектуру безопасности и руководства по расширениям
 
-### Testing
+### Тестирование
 
-- **[Running Tests](../tests/README.md)** - PHPUnit test suite documentation with setup instructions and examples
+- **[Запуск тестов](../tests/README.md)** — документация набора тестов PHPUnit с инструкциями по установке и примерами
 
-## Quick Reference
+## Краткий справочник
 
-### System Requirements
+### Требования системы
 
-- **WordPress**: 6.0 or higher
-- **PHP**: 7.4 or higher
-- **WooCommerce**: 3.0 or higher
-- **User Capability**: `manage_woocommerce`
+- **WordPress**: 6.0 или выше
+- **PHP**: 7.4 или выше
+- **WooCommerce**: 3.0 или выше
+- **Право пользователя**: `manage_woocommerce`
 
-### Installation
+### Установка
 
-1. Upload plugin to `/wp-content/plugins/woo-price-editor/`
-2. Activate via WordPress admin
-3. Access via **Price Editor** menu
-4. Configure settings as needed
+1. Загрузите плагин в `/wp-content/plugins/woo-price-editor/`
+2. Активируйте через администратор WordPress
+3. Доступ через меню **Редактор цен**
+4. Настройте параметры по необходимости
 
-See [Installation Guide](installation.md) for detailed instructions.
+Подробные инструкции смотрите в [Руководстве по установке](installation.md).
 
-### Key Features
+### Ключевые возможности
 
-- **Full-Screen Editor**: Distraction-free interface for bulk editing
-- **Inline Editing**: Click fields to edit directly in table
-- **Advanced Filtering**: Category, status, tax, stock filters plus search
-- **Customizable Columns**: Show/hide columns, configure defaults
-- **Security**: Capability-based access, nonce verification, input sanitization
-- **AJAX API**: Fast, secure product operations
+- **Полноэкранный редактор**: интерфейс без отвлечений для массового редактирования
+- **Встроенное редактирование**: нажмите на поля для редактирования прямо в таблице
+- **Расширенная фильтрация**: фильтры по категориям, статусу, налогам, наличию плюс поиск
+- **Настраиваемые колонки**: показать/скрыть колонки, настроить по умолчанию
+- **Безопасность**: контроль доступа на основе прав, проверка nonce, санитизация входных данных
+- **AJAX API**: быстрые, безопасные операции с товарами
 
-### Architecture
+### Архитектура
 
 ```
-Plugin Bootstrap (woo-price-editor.php)
+Загрузчик плагина (woo-price-editor.php)
     ↓
-WPE_Plugin (Main Controller)
-    ├── Admin Menu & Full-Screen Rendering
-    ├── Asset Loading (CSS/JS)
-    └── Settings Initialization
+WPE_Plugin (основной контроллер)
+    ├── Меню администратора и полноэкранный рендеринг
+    ├── Загрузка ресурсов (CSS/JS)
+    └── Инициализация параметров
         ↓
-AJAX Handlers (WPE_AJAX)
-    ├── Security Verification
-    ├── Get Categories/Tax Classes/Products
-    └── Update Product Fields
+Обработчики AJAX (WPE_AJAX)
+    ├── Проверка безопасности
+    ├── Получение категорий/налоговых классов/товаров
+    └── Обновление полей товаров
         ↓
-Product Handler (WPE_Product)
-    ├── Data Retrieval
-    └── Field Updates (via WooCommerce API)
+Обработчик товаров (WPE_Product)
+    ├── Получение данных
+    └── Обновления полей (через API WooCommerce)
         ↓
-Security Layer (WPE_Security)
-    ├── Field Sanitization
-    ├── Permission Checks
-    └── Event Logging
+Слой безопасности (WPE_Security)
+    ├── Санитизация полей
+    ├── Проверки прав доступа
+    └── Логирование событий
 ```
 
-### Security Model
+### Модель безопасности
 
-All operations require:
-1. ✓ Authenticated user (logged in)
-2. ✓ Valid nonce (`wp_rest`)
-3. ✓ `manage_woocommerce` capability
-4. ✓ Product-specific permissions (for updates)
+Все операции требуют:
+1. ✓ Аутентифицированный пользователь (вошедший)
+2. ✓ Действительный nonce (`wp_rest`)
+3. ✓ Право `manage_woocommerce`
+4. ✓ Права товара (для обновлений)
 
-See [Capability Requirements](capabilities.md) for details.
+Подробнее смотрите в [Справочнике прав доступа](capabilities.md).
 
-### AJAX Endpoints Summary
+### Сводка конечных точек AJAX
 
-| Endpoint | Purpose | Auth Required |
-|----------|---------|---------------|
-| `wpe_get_categories` | Fetch product categories | ✓ |
-| `wpe_get_tax_classes` | Fetch tax classes | ✓ |
-| `wpe_get_products` | Get products with filters | ✓ |
-| `wpe_update_product` | Update product field | ✓ |
+| Конечная точка | Назначение | Требуется аутентификация |
+|---|---|---|
+| `wpe_get_categories` | Получить категории товаров | ✓ |
+| `wpe_get_tax_classes` | Получить налоговые классы | ✓ |
+| `wpe_get_products` | Получить товары с фильтрами | ✓ |
+| `wpe_update_product` | Обновить поле товара | ✓ |
 
-See [AJAX Endpoints](ajax-endpoints.md) for complete API reference.
+Полный справочник API смотрите в [Конечных точках AJAX](ajax-endpoints.md).
 
-### Settings Overview
+### Обзор параметров
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| Start Category | All Products | Category selected on editor load |
-| Default Columns | sku, regular_price, sale_price, stock_status, tax_status | Columns visible by default |
-| Instructions | Built-in help text | Customizable help displayed to users |
+| Параметр | По умолчанию | Описание |
+|---|---|---|
+| Стартовая категория | Все товары | Категория, выбранная при загрузке редактора |
+| Колонки по умолчанию | sku, regular_price, sale_price, stock_status, tax_status | Видимые по умолчанию колонки |
+| Инструкции | Встроенный текст справки | Настраиваемая справка, отображаемая пользователям |
 
-See [Settings Documentation](settings.md) for configuration details.
+Подробности конфигурации смотрите в [Документации по настройкам](settings.md).
 
-## Common Tasks
+## Обычные задачи
 
-### Change Default Visible Columns
+### Изменить видимые колонки по умолчанию
 
-1. Navigate to **Price Editor** → **Settings**
-2. Check/uncheck columns in "Visible Columns" section
-3. Click **Save Changes**
+1. Перейдите в **Редактор цен** → **Настройки**
+2. Установите/снимите флажки колонок в разделе «Видимые колонки»
+3. Нажмите **Сохранить изменения**
 
-### Set Default Category Filter
+### Установить фильтр категории по умолчанию
 
-1. Navigate to **Price Editor** → **Settings**
-2. Select category from "Default Start Category" dropdown
-3. Click **Save Changes**
+1. Перейдите в **Редактор цен** → **Настройки**
+2. Выберите категорию из выпадающего списка «Стартовая категория»
+3. Нажмите **Сохранить изменения**
 
-### Customize User Instructions
+### Настроить инструкции для пользователей
 
-1. Navigate to **Price Editor** → **Settings**
-2. Edit text in "Editor Instructions" field
-3. Click **Save Changes**
+1. Перейдите в **Редактор цен** → **Настройки**
+2. Отредактируйте текст в поле «Инструкции редактора»
+3. Нажмите **Сохранить изменения**
 
-### Grant Access to Custom Role
+### Предоставить доступ пользовательской роли
 
 ```php
 $role = get_role('custom_role');
@@ -136,12 +136,12 @@ if ($role) {
 }
 ```
 
-See [Capability Requirements](capabilities.md) for more on permissions.
+Подробнее о разрешениях смотрите в [Справочнике прав доступа](capabilities.md).
 
-### Test AJAX Endpoint
+### Тестировать конечную точку AJAX
 
 ```javascript
-// In browser console on editor page
+// В консоли браузера на странице редактора
 jQuery.post(wpeData.ajaxUrl, {
     action: 'wpe_get_products',
     nonce: wpeData.nonce,
@@ -152,142 +152,142 @@ jQuery.post(wpeData.ajaxUrl, {
 });
 ```
 
-See [AJAX Endpoints](ajax-endpoints.md) for API details.
+Подробности API смотрите в [Конечных точках AJAX](ajax-endpoints.md).
 
-## Troubleshooting
+## Решение проблем
 
-### Can't See Price Editor Menu
+### Не видна папка меню Редактор цен
 
-**Problem**: Menu item not visible in WordPress admin
+**Проблема**: пункт меню не видна в администраторе WordPress
 
-**Causes**:
-- User lacks `manage_woocommerce` capability
-- Plugin not activated
+**Причины**:
+- Пользователь не имеет права `manage_woocommerce`
+- Плагин не активирован
 
-**Solutions**:
-- Verify user role (Administrator or Shop Manager)
-- Check Plugins page to confirm activation
+**Решения**:
+- Проверьте роль пользователя (Администратор или менеджер магазина)
+- Проверьте страницу плагинов, чтобы подтвердить активацию
 
-### Products Not Loading
+### Товары не загружаются
 
-**Problem**: Editor loads but no products appear
+**Проблема**: редактор загружается, но товары не отображаются
 
-**Causes**:
-- WooCommerce not installed/activated
-- No products in database
-- JavaScript error
+**Причины**:
+- WooCommerce не установлен/активирован
+- Нет товаров в базе данных
+- Ошибка JavaScript
 
-**Solutions**:
-- Activate WooCommerce
-- Create test products
-- Check browser console for errors
+**Решения**:
+- Активируйте WooCommerce
+- Создайте тестовые товары
+- Проверьте консоль браузера на ошибки
 
-### Permission Denied Errors
+### Ошибки прав доступа
 
-**Problem**: "You do not have permission" error messages
+**Проблема**: сообщения об ошибках «У вас нет прав»
 
-**Causes**:
-- Invalid or expired nonce
-- User lacks capability
-- Product-specific permission issue
+**Причины**:
+- Невалидный или истекший nonce
+- Пользователь не имеет право
+- Проблема с правами товара
 
-**Solutions**:
-- Refresh page to get new nonce
-- Verify user has `manage_woocommerce` capability
-- Check if user can edit specific product in WP admin
+**Решения**:
+- Обновите страницу для получения нового nonce
+- Проверьте, что пользователь имеет право `manage_woocommerce`
+- Проверьте, может ли пользователь редактировать конкретный товар в администраторе WP
 
-### Editor Page is Blank
+### Страница редактора пуста
 
-**Problem**: Clicking Price Editor shows blank page
+**Проблема**: при нажатии на Редактор цен отображается пустая страница
 
-**Causes**:
-- PHP error
-- Missing template file
-- Theme/plugin conflict
+**Причины**:
+- Ошибка PHP
+- Отсутствует файл шаблона
+- Конфликт с темой/плагином
 
-**Solutions**:
-- Enable WP_DEBUG and check error logs
-- Verify `templates/editor-shell.php` exists
-- Disable other plugins to identify conflict
+**Решения**:
+- Включите WP_DEBUG и проверьте логи ошибок
+- Убедитесь, что `templates/editor-shell.php` существует
+- Отключите другие плагины для выявления конфликтов
 
-See individual documentation files for more detailed troubleshooting.
+Подробнее ищите в отдельных файлах документации.
 
-## Developer Resources
+## Ресурсы для разработчиков
 
-### Extending the Plugin
+### Расширение плагина
 
 ```php
-// Add custom data to editor context
+// Добавить пользовательские данные в контекст редактора
 add_filter('wpe_editor_context', function($context) {
     $context['my_custom_data'] = get_my_data();
     return $context;
 });
 ```
 
-### Adding Custom AJAX Endpoint
+### Добавление пользовательской конечной точки AJAX
 
 ```php
 add_action('wp_ajax_wpe_custom_action', function() {
-    // Verify permissions using existing handler
+    // Проверить разрешения с помощью существующего обработчика
     $ajax = new WPE_AJAX();
-    // ... your logic
+    // ... ваша логика
 });
 ```
 
-See [Technical Notes](technical-notes.md) for extension examples.
+Смотрите [Технические заметки](technical-notes.md) для примеров расширений.
 
-### Running Tests
+### Запуск тестов
 
 ```bash
-# Setup WordPress test suite
+# Установить набор тестов WordPress
 export WP_TESTS_DIR=/tmp/wordpress-tests-lib
 
-# Run all tests
+# Запустить все тесты
 cd woo-price-editor/tests
 phpunit
 
-# Run specific test
+# Запустить конкретный тест
 phpunit test-option-defaults.php
 ```
 
-See [Testing Documentation](../tests/README.md) for setup and usage.
+Подробнее смотрите в [Документации по тестам](../tests/README.md).
 
-## Additional Resources
+## Дополнительные ресурсы
 
-### WordPress Documentation
-- [Plugin Handbook](https://developer.wordpress.org/plugins/)
-- [AJAX in Plugins](https://developer.wordpress.org/plugins/javascript/ajax/)
+### Документация WordPress
+- [Справочник плагинов](https://developer.wordpress.org/plugins/)
+- [AJAX в плагинах](https://developer.wordpress.org/plugins/javascript/ajax/)
 - [Settings API](https://developer.wordpress.org/plugins/settings/settings-api/)
 
-### WooCommerce Documentation
-- [WooCommerce Docs](https://woocommerce.com/documentation/)
+### Документация WooCommerce
+- [Документация WooCommerce](https://woocommerce.com/documentation/)
 - [Product CRUD](https://github.com/woocommerce/woocommerce/wiki/CRUD-Objects-in-3.0)
 
-### Libraries Used
+### Используемые библиотеки
 - [DataTables](https://datatables.net/)
 - [jQuery](https://jquery.com/)
 
-## Contributing
+## Вклад в проект
 
-When contributing to the plugin:
+При внесении вклада в плагин:
 
-1. Read all documentation to understand architecture
-2. Follow WordPress coding standards
-3. Write tests for new features
-4. Update documentation for changes
-5. Test on supported WordPress/PHP versions
+1. Прочитайте всю документацию для понимания архитектуры
+2. Следуйте стандартам кодирования WordPress
+3. Напишите тесты для новых функций
+4. Обновите документацию для изменений
+5. Тестируйте на поддерживаемых версиях WordPress/PHP
 
-## Support
+## Поддержка
 
-For questions or issues:
+По вопросам и проблемам:
 
-1. Check documentation in this directory
-2. Review [Technical Notes](technical-notes.md) for implementation details
-3. Search existing issues
-4. Open new issue with details
+1. Проверьте документацию в этом каталоге
+2. Просмотрите [Технические заметки](technical-notes.md) для деталей реализации
+3. Поищите существующие проблемы
+4. Откройте новую проблему с деталями
 
 ---
 
-**Last Updated**: December 2024  
-**Plugin Version**: 0.1.0  
-**WordPress Compatibility**: 6.0+
+**Последнее обновление**: декабрь 2024  
+**Версия плагина**: 0.1.0  
+**Совместимость WordPress**: 6.0+
