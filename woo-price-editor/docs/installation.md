@@ -1,110 +1,110 @@
-# Installation Guide
+# Руководство по установке
 
-## Requirements
+## Требования
 
-- **WordPress**: 6.0 or higher
-- **PHP**: 7.4 or higher
-- **WooCommerce**: Latest stable version (3.0+)
-- **Required Capability**: `manage_woocommerce`
+- **WordPress**: 6.0 или выше
+- **PHP**: 7.4 или выше
+- **WooCommerce**: 3.0 или выше
+- **Требуемое право**: `manage_woocommerce`
 
-## Installation Steps
+## Шаги установки
 
-### Method 1: WordPress Admin Upload
+### Способ 1: Загрузка через Администратор WordPress
 
-1. Download the plugin ZIP file
-2. Navigate to **WordPress Admin** → **Plugins** → **Add New**
-3. Click **Upload Plugin** at the top of the page
-4. Choose the downloaded ZIP file
-5. Click **Install Now**
-6. Once installed, click **Activate Plugin**
+1. Скачайте ZIP файл плагина
+2. Перейдите в **Администратор WordPress** → **Плагины** → **Добавить новый плагин**
+3. Нажмите **Загрузить плагин** вверху страницы
+4. Выберите скачанный ZIP файл
+5. Нажмите **Установить сейчас**
+6. После установки нажмите **Активировать плагин**
 
-### Method 2: Manual Installation via FTP
+### Способ 2: Ручная установка через FTP
 
-1. Extract the plugin ZIP file
-2. Connect to your server via FTP
-3. Upload the `woo-price-editor` directory to `/wp-content/plugins/`
-4. Navigate to **WordPress Admin** → **Plugins**
-5. Find "Woo Price Editor" and click **Activate**
+1. Распакуйте ZIP файл плагина
+2. Подключитесь к своему серверу через FTP
+3. Загрузите каталог `woo-price-editor` в `/wp-content/plugins/`
+4. Перейдите в **Администратор WordPress** → **Плагины**
+5. Найдите "Редактор цен WooCommerce" и нажмите **Активировать**
 
-### Method 3: WP-CLI Installation
+### Способ 3: Установка через WP-CLI
 
 ```bash
-# Upload plugin to plugins directory
+# Активировать установленный плагин
 wp plugin activate woo-price-editor
 
-# Or install from local ZIP file
+# Или установить из локального ZIP файла
 wp plugin install /path/to/woo-price-editor.zip --activate
 ```
 
-## Post-Installation
+## После установки
 
-### Accessing the Plugin
+### Доступ к плагину
 
-Once activated, the plugin adds a menu item to the WordPress admin:
+После активации плагин добавляет пункт меню в административную панель WordPress:
 
-- **Location**: WordPress Admin → **Price Editor**
-- **Settings**: WordPress Admin → **Price Editor** → **Settings**
+- **Расположение**: Администратор WordPress → **Редактор цен**
+- **Настройки**: Администратор WordPress → **Редактор цен** → **Настройки**
 
-### Initial Configuration
+### Начальная конфигурация
 
-1. Navigate to **Price Editor** → **Settings**
-2. Configure the following options:
-   - **Start Category**: Select the default product category to display on load
-   - **Default Columns**: Choose which columns are visible by default
-   - **Instructions**: Customize the help text shown to users
+1. Перейдите в **Редактор цен** → **Настройки**
+2. Настройте следующие параметры:
+   - **Стартовая категория**: выберите категорию товаров по умолчанию
+   - **Колонки по умолчанию**: выберите, какие колонки видны по умолчанию
+   - **Инструкции**: настройте текст справки для пользователей
 
-3. Click **Save Changes**
+3. Нажмите **Сохранить изменения**
 
-### Verifying Installation
+### Проверка установки
 
-To verify the plugin is working correctly:
+Чтобы убедиться, что плагин работает правильно:
 
-1. Navigate to **Price Editor** from the admin menu
-2. The full-screen editor interface should load
-3. You should see your WooCommerce products in a table
-4. Try editing a product field (e.g., a price) to confirm functionality
+1. Перейдите на **Редактор цен** из меню администратора
+2. Должен загрузиться полноэкранный интерфейс редактора
+3. Вы должны видеть таблицу с товарами WooCommerce
+4. Попробуйте отредактировать поле товара (например, цену) для проверки функциональности
 
-## Troubleshooting
+## Решение проблем
 
-### Plugin Menu Not Visible
+### Пункт меню плагина не видна
 
-**Cause**: User lacks required capability
-**Solution**: Ensure the logged-in user has the `manage_woocommerce` capability (typically Shop Manager or Administrator roles)
+**Причина**: пользователь не имеет требуемого права доступа
+**Решение**: убедитесь, что пользователь имеет право `manage_woocommerce` (обычно администратор или менеджер магазина)
 
-### Editor Page is Blank
+### Страница редактора пуста
 
-**Cause**: Theme or plugin conflict, or missing template file
-**Solution**: 
-- Check for JavaScript errors in browser console
-- Temporarily disable other plugins to identify conflicts
-- Verify the file `woo-price-editor/templates/editor-shell.php` exists
+**Причина**: конфликт с темой или другим плагином, либо отсутствует файл шаблона
+**Решение**: 
+- Проверьте консоль браузера на наличие ошибок JavaScript
+- Временно отключите другие плагины для выявления конфликтов
+- Убедитесь, что файл `woo-price-editor/templates/editor-shell.php` существует
 
-### Products Not Loading
+### Товары не загружаются
 
-**Cause**: WooCommerce not activated or database issues
-**Solution**:
-- Ensure WooCommerce is active
-- Verify products exist in WooCommerce
-- Check browser console and server error logs for details
+**Причина**: WooCommerce не активирован или проблемы с базой данных
+**Решение**:
+- Убедитесь, что WooCommerce активирован
+- Проверьте наличие товаров в WooCommerce
+- Посмотрите консоль браузера и логи сервера на предмет ошибок
 
-### Permission Errors
+### Ошибки прав доступа
 
-**Cause**: User lacks proper capability
-**Solution**: 
-- Verify user has `manage_woocommerce` capability
-- Check with administrator if role permissions need adjustment
+**Причина**: пользователь не имеет необходимых прав
+**Решение**: 
+- Проверьте, что пользователь имеет право `manage_woocommerce`
+- Свяжитесь с администратором для проверки прав доступа
 
-## Uninstallation
+## Удаление
 
-The plugin includes an uninstall routine that removes its data:
+Плагин содержит процедуру удаления, которая удаляет его данные:
 
-1. Navigate to **Plugins** page in WordPress Admin
-2. **Deactivate** the plugin first
-3. Click **Delete** on the deactivated plugin
-4. Confirm deletion
+1. Перейдите на страницу **Плагины** в Администраторе WordPress
+2. **Деактивируйте** плагин
+3. Нажмите **Удалить** на деактивированном плагине
+4. Подтвердите удаление
 
-This will remove:
-- Plugin option `wpe_editor_settings` from the database
-- All plugin files from the server
+Это удалит:
+- Опцию плагина `wpe_editor_settings` из базы данных
+- Все файлы плагина с сервера
 
-**Note**: Product data is not affected during uninstallation.
+**Примечание**: данные товаров не затрагиваются при удалении.

@@ -1,29 +1,29 @@
-# Capability Requirements
+# Справочник прав доступа
 
-## Overview
+## Обзор
 
-The Woo Price Editor plugin is designed with security in mind and requires specific WordPress capabilities to access its features. This document outlines the capability requirements for various plugin functions.
+Плагин Редактор цен WooCommerce разработан с соблюдением высоких стандартов безопасности и требует определённых прав WordPress для доступа к его функциям. В этом документе описаны требования к правам доступа для различных функций плагина.
 
-## Primary Capability: `manage_woocommerce`
+## Основное право: `manage_woocommerce`
 
-All plugin functionality requires the `manage_woocommerce` capability, which is typically assigned to:
+Вся функциональность плагина требует право `manage_woocommerce`, которое обычно назначается:
 
-- **Administrator**: Full site control
-- **Shop Manager**: WooCommerce management without full admin access
+- **Администратор**: полный контроль над сайтом
+- **Менеджер магазина**: управление WooCommerce без полного администраторского доступа
 
-## Capability Checks by Feature
+## Проверка прав по функциям
 
-### Admin Menu Access
+### Доступ к меню администратора
 
-**Required Capability**: `manage_woocommerce`
+**Требуемое право**: `manage_woocommerce`
 
-The Price Editor menu item only appears for users with the `manage_woocommerce` capability. This is enforced in:
+Пункт меню Редактор цен отображается только для пользователей с правом `manage_woocommerce`. Это реализовано в:
 
 ```php
 add_menu_page(
-    __('Woo Price Editor', 'woo-price-editor'),
-    __('Price Editor', 'woo-price-editor'),
-    'manage_woocommerce',  // Capability requirement
+    __('Редактор цен WooCommerce', 'woo-price-editor'),
+    __('Редактор цен', 'woo-price-editor'),
+    'manage_woocommerce',  // Требуемое право
     'woo-price-editor',
     [$this, 'render_placeholder_screen'],
     'dashicons-money-alt',
@@ -31,32 +31,32 @@ add_menu_page(
 );
 ```
 
-**Location**: `includes/class-wpe-plugin.php`
+**Расположение**: `includes/class-wpe-plugin.php`
 
-### Settings Page Access
+### Доступ к странице настроек
 
-**Required Capability**: `manage_woocommerce`
+**Требуемое право**: `manage_woocommerce`
 
-The Settings submenu and all settings operations require `manage_woocommerce`:
+Подменю Настройки и все операции со страницей настроек требуют `manage_woocommerce`:
 
 ```php
 add_submenu_page(
     'woo-price-editor',
-    __('Woo Price Editor Settings', 'woo-price-editor'),
-    __('Settings', 'woo-price-editor'),
-    'manage_woocommerce',  // Capability requirement
+    __('Настройки редактора цен WooCommerce', 'woo-price-editor'),
+    __('Настройки', 'woo-price-editor'),
+    'manage_woocommerce',  // Требуемое право
     'wpe-settings',
     [$this, 'render_settings_page']
 );
 ```
 
-**Location**: `includes/class-wpe-settings.php`
+**Расположение**: `includes/class-wpe-settings.php`
 
-### Full-Screen Editor Access
+### Доступ к полноэкранному редактору
 
-**Required Capability**: `manage_woocommerce`
+**Требуемое право**: `manage_woocommerce`
 
-Before rendering the editor shell, the plugin verifies the user is authenticated and has the required capability:
+Перед отображением оболочки редактора плагин проверяет, что пользователь аутентифицирован и имеет требуемое право:
 
 ```php
 private function ensure_user_can_access() {
@@ -66,55 +66,55 @@ private function ensure_user_can_access() {
 
     if (!current_user_can('manage_woocommerce')) {
         wp_die(
-            esc_html__('You do not have permission to access the Woo Price Editor.', 'woo-price-editor'),
-            esc_html__('Access denied', 'woo-price-editor'),
+            esc_html__('У вас нет прав для доступа к редактору цен WooCommerce.', 'woo-price-editor'),
+            esc_html__('Доступ запрещён', 'woo-price-editor'),
             ['response' => 403]
         );
     }
 }
 ```
 
-**Location**: `includes/class-wpe-plugin.php`
+**Расположение**: `includes/class-wpe-plugin.php`
 
-### AJAX Endpoints
+### Конечные точки AJAX
 
-**Required Capability**: `manage_woocommerce`
+**Требуемое право**: `manage_woocommerce`
 
-All AJAX endpoints verify capability before processing requests:
+Все конечные точки AJAX проверяют права перед обработкой запросов:
 
-#### Endpoints Requiring Capability:
-- `wpe_get_categories` - Retrieve product categories
-- `wpe_get_tax_classes` - Retrieve tax classes
-- `wpe_get_products` - Fetch product listings
-- `wpe_update_product` - Update product fields
+#### Конечные точки, требующие проверки прав:
+- `wpe_get_categories` — получение категорий товаров
+- `wpe_get_tax_classes` — получение налоговых классов
+- `wpe_get_products` — получение списка товаров
+- `wpe_update_product` — обновление полей товара
 
-**Verification Code**:
+**Код проверки**:
 ```php
 private function verify_request() {
-    // Check authentication
+    // Проверка аутентификации
     if (!is_user_logged_in()) {
         return new WP_Error(
             'not_authenticated',
-            __('You must be logged in to access this endpoint.', 'woo-price-editor'),
+            __('Вы должны быть авторизованы для доступа к этой конечной точке.', 'woo-price-editor'),
             ['status' => 401]
         );
     }
 
-    // Check nonce
+    // Проверка nonce
     $nonce = isset($_REQUEST['nonce']) ? sanitize_text_field(wp_unslash($_REQUEST['nonce'])) : '';
     if (!$nonce || !wp_verify_nonce($nonce, 'wp_rest')) {
         return new WP_Error(
             'invalid_nonce',
-            __('Security check failed.', 'woo-price-editor'),
+            __('Ошибка проверки безопасности.', 'woo-price-editor'),
             ['status' => 403]
         );
     }
 
-    // Check capability
+    // Проверка прав
     if (!current_user_can('manage_woocommerce')) {
         return new WP_Error(
             'forbidden',
-            __('You do not have permission to manage products.', 'woo-price-editor'),
+            __('У вас нет прав для управления товарами.', 'woo-price-editor'),
             ['status' => 403]
         );
     }
@@ -123,20 +123,20 @@ private function verify_request() {
 }
 ```
 
-**Location**: `includes/class-wpe-ajax.php`
+**Расположение**: `includes/class-wpe-ajax.php`
 
-### Product-Specific Permissions
+### Специфичные для товара права
 
-**Required Capability**: `manage_woocommerce` + product-specific check
+**Требуемое право**: `manage_woocommerce` + проверка товара
 
-When updating a product, additional checks verify the user can edit the specific product:
+При обновлении товара дополнительные проверки убеждают, что пользователь может редактировать конкретный товар:
 
 ```php
 if (!WPE_Security::can_edit_product($product_id)) {
     $this->send_response(
         new WP_Error(
             'forbidden',
-            __('You do not have permission to edit this product.', 'woo-price-editor'),
+            __('У вас нет прав для редактирования этого товара.', 'woo-price-editor'),
             ['status' => 403]
         )
     );
@@ -144,106 +144,106 @@ if (!WPE_Security::can_edit_product($product_id)) {
 }
 ```
 
-**Location**: `includes/class-wpe-ajax.php`
+**Расположение**: `includes/class-wpe-ajax.php`
 
-The `WPE_Security::can_edit_product()` method ensures the user has both the general capability and permission to edit the specific product post.
+Метод `WPE_Security::can_edit_product()` убеждает, что пользователь имеет как общее право, так и право редактировать конкретный пост товара.
 
-## Granting Capabilities
+## Предоставление прав
 
-### For Custom Roles
+### Для пользовательских ролей
 
-If you need to grant access to custom user roles:
+Если нужно предоставить доступ пользовательским ролям:
 
 ```php
-// Get the role
+// Получить роль
 $role = get_role('custom_role_slug');
 
-// Add the manage_woocommerce capability
+// Добавить право manage_woocommerce
 if ($role) {
     $role->add_cap('manage_woocommerce');
 }
 ```
 
-### Using Plugins
+### Использование плагинов
 
-Several plugins can help manage capabilities:
-- **User Role Editor**: Visual interface for capability management
-- **Members**: Advanced role and capability management
-- **Capability Manager Enhanced**: Fine-grained permission control
+Несколько плагинов помогают управлять правами доступа:
+- **User Role Editor** — визуальный интерфейс управления правами
+- **Members** — расширенное управление ролями и правами
+- **Capability Manager Enhanced** — детальный контроль разрешений
 
-## Security Considerations
+## Соображения безопасности
 
-### Nonce Verification
+### Проверка Nonce
 
-All AJAX requests must include a valid nonce created with `wp_create_nonce('wp_rest')`. This prevents CSRF attacks.
+Все AJAX запросы должны содержать корректный nonce, созданный с помощью `wp_create_nonce('wp_rest')`. Это предотвращает атаки CSRF.
 
-### Request Sanitization
+### Санитизация запросов
 
-All user input is sanitized using WordPress functions:
-- `sanitize_text_field()` - Text inputs
-- `absint()` - Integer values
-- `wp_unslash()` - Remove slashes from data
+Все входящие данные пользователя санитизированы с помощью функций WordPress:
+- `sanitize_text_field()` — текстовые вводы
+- `absint()` — целочисленные значения
+- `wp_unslash()` — удаление слешей из данных
 
-### Logged Events
+### Регистрация событий
 
-Security events are logged for monitoring:
-- Failed permission checks
-- Invalid product update attempts
-- AJAX errors
+События безопасности логируются для мониторинга:
+- Неудачные проверки прав доступа
+- Попытки неправомерного обновления товаров
+- Ошибки AJAX
 
-**Location**: `includes/class-wpe-security.php`
+**Расположение**: `includes/class-wpe-security.php`
 
-## Error Responses
+## Ответы об ошибках
 
-### HTTP Status Codes
+### HTTP коды состояния
 
-The plugin returns appropriate HTTP status codes:
+Плагин возвращает соответствующие HTTP коды состояния:
 
-- **200 OK**: Successful request
-- **400 Bad Request**: Invalid input data
-- **401 Unauthorized**: User not logged in
-- **403 Forbidden**: Insufficient permissions
-- **500 Internal Server Error**: Server-side error
+- **200 OK** — успешный запрос
+- **400 Bad Request** — невалидные входные данные
+- **401 Unauthorized** — пользователь не авторизован
+- **403 Forbidden** — недостаточно прав
+- **500 Internal Server Error** — ошибка на сервере
 
-### Error Message Examples
+### Примеры сообщений об ошибках
 
-**Not Authenticated** (401):
+**Не аутентифицирован** (401):
 ```json
 {
     "success": false,
-    "message": "You must be logged in to access this endpoint.",
+    "message": "Вы должны быть авторизованы для доступа к этой конечной точке.",
     "data": {
         "status": 401
     }
 }
 ```
 
-**Invalid Nonce** (403):
+**Невалидный Nonce** (403):
 ```json
 {
     "success": false,
-    "message": "Security check failed.",
+    "message": "Ошибка проверки безопасности.",
     "data": {
         "status": 403
     }
 }
 ```
 
-**Forbidden** (403):
+**Запрещённый доступ** (403):
 ```json
 {
     "success": false,
-    "message": "You do not have permission to manage products.",
+    "message": "У вас нет прав для управления товарами.",
     "data": {
         "status": 403
     }
 }
 ```
 
-## Best Practices
+## Лучшие практики
 
-1. **Never bypass capability checks** - All custom code should respect the `manage_woocommerce` requirement
-2. **Use built-in WordPress functions** - Leverage `current_user_can()` for all permission checks
-3. **Log security events** - Monitor failed access attempts for security auditing
-4. **Test with different roles** - Verify access control works correctly for all user roles
-5. **Keep nonces fresh** - Nonces expire; implement proper refresh mechanisms in long-running sessions
+1. **Никогда не обходить проверки прав** — весь пользовательский код должен соблюдать требование `manage_woocommerce`
+2. **Использовать встроенные функции WordPress** — применять `current_user_can()` для всех проверок разрешений
+3. **Логировать события безопасности** — мониторить неудачные попытки доступа для аудита безопасности
+4. **Тестировать с разными ролями** — проверить, что контроль доступа работает правильно для всех ролей пользователей
+5. **Сохранять nonce в актуальном состоянии** — nonce истекают; внедрить надлежащие механизмы обновления в длительных сессиях
