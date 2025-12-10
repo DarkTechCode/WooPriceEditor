@@ -182,7 +182,8 @@ class WPE_Plugin {
      * @return void
      */
     public function enqueue_admin_assets($hook_suffix) {
-        if ($hook_suffix !== $this->page_hook) {
+        // allow hook suffix to be the actual page hook or our registered hook
+        if ($hook_suffix !== $this->page_hook && $hook_suffix !== 'toplevel_page_woo-price-editor') {
             return;
         }
 
@@ -218,7 +219,7 @@ class WPE_Plugin {
         wp_enqueue_script(
             'wpe-editor',
             WPE_PLUGIN_URL . 'assets/js/editor.js',
-            ['jquery', 'datatables', 'wp-api-fetch'],
+            ['jquery', 'datatables'],
             WPE_PLUGIN_VERSION,
             true
         );
